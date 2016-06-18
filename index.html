@@ -7,13 +7,89 @@
     
     <title>Root Calculator</title>
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> 
+    
 </head>
 
 <body>
   <h1>Newton's Method</h1>
-  <input type = "text" id="myInput" placeholder="Enter text" autofocus/>
-  <div id="myOutput">Output words</div>
-   
+  <h2>Coming Soon!</h2>
   
+  <input type = "text" id="inputA" placeholder="a" autofocus/>
+  x^2
+  <input type = "text" id="inputB" placeholder="b" />
+  x
+  <input type = "text" id="inputC" placeholder="c" />
+  
+  <button id= "myButton" >Enter </button>
+ 
+  <div id="myOutput">Output words</div>
+  
+  
+   
+  <script>
+    
+      $( document ).ready(function() {
+        
+        
+        // Getting input variables
+        var a;
+        var b;
+        var c;
+        
+        $("#inputA").keyup(function(e){
+          a = $(this).val();
+          a = parseInt(a);
+          console.log(a);          
+        }
+          )
+          
+        $("#inputB").keyup(function(e){
+          b = $(this).val();
+          b = parseInt(b);
+          console.log(b);          
+        }
+          )
+        
+         $("#inputC").keyup(function(e){
+          c = $(this).val();
+          c = parseInt(c);
+          console.log(c);          
+        }
+          )
+          
+                
+         
+         
+          // Check if input is 0 or null
+          
+          if( a == 0 || a == null )
+          {
+            console.log("If-then A worked");
+          }
+          
+          if( b == 0 || b == null )
+          {
+            console.log("If-then B worked");
+          }
+          
+          if( c == 0 || c == null )
+          {
+            console.log("If-then C worked");
+          }
+          
+          
+          $("#myButton").click(function(){
+            $('#myOutput').html(a+b+c);
+          })
+          
+      
+      
+      });
+      
+      
+     
+    
+  </script>
 </body>
 </html>
