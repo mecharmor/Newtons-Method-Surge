@@ -1,8 +1,27 @@
 <!DOCTYPE html>
 
 <html>
-    
+        <!-- Bootstrap Link -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            
+        <!--jQuery Link-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   
+  <!--CSS Added-->
+<style type="text/css">
+  
+.jumbotron{
+
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+    
+    border: 2px solid #73AD21;
+}
+
+</style>
+
 <head>
     
     <title>Root Calculator</title>
@@ -15,18 +34,39 @@
   <h1>Newton's Method</h1>
   <h2>Coming Soon!</h2>
   
-  <input type = "text" id="inputA" placeholder="a" autofocus/>
-  x^2
-  <input type = "text" id="inputB" placeholder="b" />
-  x
-  <input type = "text" id="inputC" placeholder="c" />
+
+<div class="jumbotron">
   
-  <button id= "myButton" >Enter </button>
- 
+  <!--Same Inputs but with new styling-->
+    <div class="col-xs-2">
+        
+        <!--inputA-->
+        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus>
+
+    </div>
+    <div class="col-xs-2">
+        
+        <!--inputB-->
+        <input type="text" class="form-control" id="inputB" placeholder="x">
+    
+    </div>    
+    <div class="col-xs-2">
+        
+        <!--inputC-->
+        <input type="text" class="form-control" id="inputC" placeholder="c">
+    </div>
+        
+        <!--Enter Button-->
+        <button type="button" class="btn btn-primary" id= "myButton" >Enter</button>
+
+</div>
+
+  <!--Output-->
   <div id="myOutput">Output words</div>
   
-  
+
    
+
   <script>
     
       $( document ).ready(function() {
