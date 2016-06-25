@@ -54,12 +54,20 @@
         
         <!--inputC-->
         <input type="text" class="form-control" id="inputC" placeholder="c">
+    
+    </div>
+    <div class="col-xs-2">
+        
+        <!--inputXn-->
+        <input type="text" class="form-control" id="inputXn" placeholder="Xn">
+
     </div>
         
         <!--Enter Button-->
         <button type="button" class="btn btn-primary" id= "myButton" >Enter</button>
 
-</div>
+     </div>
+     
 
   <!--Output-->
   <div id="myOutput">Output words</div>
@@ -76,52 +84,79 @@
         var a;
         var b;
         var c;
+        var xn;
         
         $("#inputA").keyup(function(e){
           a = $(this).val();
           a = parseInt(a);
-          console.log(a);          
+         // console.log(a);          
         }
           )
           
         $("#inputB").keyup(function(e){
           b = $(this).val();
           b = parseInt(b);
-          console.log(b);          
+         // console.log(b);          
         }
           )
         
          $("#inputC").keyup(function(e){
           c = $(this).val();
           c = parseInt(c);
-          console.log(c);          
+         // console.log(c);          
+        }
+          )
+          
+          $("#inputXn").keyup(function(e){
+          xn = $(this).val();
+          xn = parseInt(xn);
+         // console.log(xn);          
         }
           )
           
                 
-         
-         
-          // Check if input is 0 or null
-          
+         // OUTPUT
+               
+          //doing the math
+          var func;
+          var deriv;
+          var ans;
+           
+           $("#myButton").click(function(){
+             
+             // Check if input is 0 or null          
           if( a == 0 || a == null )
           {
             console.log("If-then A worked");
-          }
-          
+            a = 0;
+          }          
           if( b == 0 || b == null )
           {
             console.log("If-then B worked");
-          }
-          
+            b = 0;
+          }          
           if( c == 0 || c == null )
           {
             console.log("If-then C worked");
+            c = 0;
           }
           
           
-          $("#myButton").click(function(){
-            $('#myOutput').html(a+b+c);
+          func = a*xn*xn + b*xn + c
+         // console.log(func);
+          
+          deriv = 2*a*xn + b;
+          //console.log(deriv);
+          
+          ans = xn + func/deriv;
+             
+            $('#myOutput').html(ans);
           })
+          
+          
+          
+          
+         
           
       
       
