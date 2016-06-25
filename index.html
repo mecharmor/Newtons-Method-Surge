@@ -2,10 +2,15 @@
 
 <html>
         <!-- Bootstrap Link -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-            
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">            
         <!--jQuery Link-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
   
   <!--CSS Added-->
 <style type="text/css">
@@ -42,8 +47,10 @@
         
         <!--inputA-->
         <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus>
-
-    </div>
+         </div>
+         <span>x^2</span>
+        
+   
     <div class="col-xs-2">
         
         <!--inputB-->
@@ -68,9 +75,18 @@
 
      </div>
      
+     <!--Output-->
+      <div id="myOutput">Output words</div>
+      
+      <!--Precision Button-->
+        <button type="button" class="btn btn-primary" id= "precision" >More Precision</button>
 
-  <!--Output-->
-  <div id="myOutput">Output words</div>
+     </div>
+     
+     
+     
+
+  
   
 
    
@@ -121,6 +137,7 @@
           var func;
           var deriv;
           var ans;
+          var det;
            
            $("#myButton").click(function(){
              
@@ -142,25 +159,54 @@
           }
           
           
-          func = a*xn*xn + b*xn + c
+          dscr = b*b-(4*a*c);
+           func = a*xn*xn + b*xn + c
          // console.log(func);
           
           deriv = 2*a*xn + b;
           //console.log(deriv);
           
-          ans = xn + func/deriv;
+          ans = xn - func/deriv;
+             
+          
+          if (dscr < 0)
+          {
+            
+            $('#myOutput').html( "Imaginary Number");
+            
+          }
+          else if (deriv == 0)
+          {
+             console.log("deriv = 0 ");
+             console.log(deriv);
+             $('#myOutput').html( "No convergence. Derivative = 0. Choose new Xn.");
+          }
+          else{
+                   
+            $('#myOutput').html( ans);
+            
+              }
+          })
+  
+      $('#precision').click(function(){
+        
+        xn = ans;
+        
+         func = a*xn*xn + b*xn + c
+         // console.log(func);
+          
+          deriv = 2*a*xn + b;
+          //console.log(deriv);
+          
+          ans = xn - func/deriv;
              
             $('#myOutput').html(ans);
-          })
-          
-          
-          
-          
+      })
+
+        });
          
           
       
-      
-      });
       
       
      
