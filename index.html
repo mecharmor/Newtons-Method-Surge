@@ -101,6 +101,8 @@
         var b;
         var c;
         var xn;
+        var delta;
+        var precision;
         
         $("#inputA").keyup(function(e){
           a = $(this).val();
@@ -158,29 +160,33 @@
             c = 0;
           }
           
+          //Set descriminant - checking for imaginary number
+          dscr = b*b-(4*a*c); //call function
           
-          dscr = b*b-(4*a*c);
+          //Set f(x)
            func = a*xn*xn + b*xn + c
-         // console.log(func);
           
+          //Set f'(x)
           deriv = 2*a*xn + b;
-          //console.log(deriv);
           
+          //Set Answer
           ans = xn - func/deriv;
              
-          
+          //Validation   
           if (dscr < 0)
           {
-            
+            // Imaginary Number Check
             $('#myOutput').html( "Imaginary Number");
             
           }
+          // if Derivative == 0
           else if (deriv == 0)
           {
              console.log("deriv = 0 ");
              console.log(deriv);
              $('#myOutput').html( "No convergence. Derivative = 0. Choose new Xn.");
           }
+          //Passes Validation
           else{
                    
             $('#myOutput').html( ans);
@@ -188,6 +194,7 @@
               }
           })
   
+      //More Precision Button Clicked  (Xn loops)
       $('#precision').click(function(){
         
         xn = ans;
@@ -204,7 +211,25 @@
       })
 
         });
-         
+  
+        //Example from Gerald of Recursion
+        function thing(x){
+          if (thing(x-1)-3) {break;}else{};
+          
+        };
+        
+        //Checking precision
+         function converge(delta, precision){
+           
+           if (delta < precision){
+             break
+           }
+           else{
+             
+             //Run function again
+             
+           }
+         }
           
       
       
