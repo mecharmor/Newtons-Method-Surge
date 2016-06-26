@@ -14,15 +14,37 @@
   
   <!--CSS Added-->
 <style type="text/css">
-  
+ 
 .jumbotron{
 
     padding-top: 50px;
     padding-right: 30px;
     padding-bottom: 50px;
     padding-left: 80px;
-    
-    border: 2px solid #73AD21;
+    border: 2px solid #b94646;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 10px 10px 5px grey;
+}
+.col-xs-2{
+
+    width: 100px;
+}
+.well{
+
+  width: 15%;
+  transition: width 2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.well:hover {
+    width: 30%;
+}
+
+  h1{
+  color: white;
+    text-shadow: 1px 1px 2px #b94646, 0 0 25px gray, 0 0 5px gray;
 }
 
 </style>
@@ -36,8 +58,7 @@
 </head>
 
 <body>
-  <h1>Newton's Method</h1>
-  <h2>Coming Soon!</h2>
+  <h1 align="center">Newton's Method <small> Coming Soon!</small></h1>
   
 
 <div class="jumbotron">
@@ -46,11 +67,9 @@
     <div class="col-xs-2">
         
         <!--inputA-->
-        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus>
+        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus><span>x^2</span>
          </div>
-         <span>x^2</span>
-        
-   
+         
     <div class="col-xs-2">
         
         <!--inputB-->
@@ -72,23 +91,17 @@
         
         <!--Enter Button-->
         <button type="button" class="btn btn-primary" id= "myButton" >Enter</button>
-
-     </div>
-     
-     <!--Output-->
-      <div id="myOutput">Output words</div>
-      
-      <!--Precision Button-->
+        <!--Precision Button-->
         <button type="button" class="btn btn-primary" id= "precision" >More Precision</button>
 
+     </div><!--Close Jumbotron-->
+     
+     <div class="jumbotron" style="visibility: hidden;" id="JumbotronAnswer">
+     <!--Output-->
+     <div class="well"><p id="myOutput">Answer</p></div>
+     <div class="well"><p id="ChangeX">Change of X</p></div>
      </div>
      
-     
-     
-
-  
-  
-
    
 
   <script>
@@ -131,8 +144,7 @@
          // console.log(xn);          
         }
           )
-          
-                
+           
          // OUTPUT
                
           //doing the math
@@ -177,7 +189,6 @@
           {
             // Imaginary Number Check
             $('#myOutput').html( "Imaginary Number");
-            
           }
           // if Derivative == 0
           else if (deriv == 0)
@@ -189,10 +200,18 @@
           //Passes Validation
           else{
                    
-            $('#myOutput').html( ans);
+            $('#myOutput').html(ans);
             
               }
-          })
+    });
+           //Fade In Animation Occurs when Enter Button is Pressed
+            $("#myButton").click(function(){
+                 //Fades in different pieces
+               $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
+               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+
+          })//End of HTML.ready
   
       //More Precision Button Clicked  (Xn loops)
       $('#precision').click(function(){
@@ -232,9 +251,6 @@
          }
           
       
-      
-      
-     
     
   </script>
 </body>
