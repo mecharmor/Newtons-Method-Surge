@@ -31,16 +31,6 @@
 
     width: 100px;
 }
-.well{
-
-  width: 15%;
-  transition: width 2s;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.well:hover {
-    width: 30%;
-}
 
   h1{
   color: white;
@@ -98,8 +88,8 @@
      
      <div class="jumbotron" style="visibility: hidden;" id="JumbotronAnswer">
      <!--Output-->
-     <div class="well"><p id="myOutput">Answer</p></div>
-     <div class="well"><p id="ChangeX">Change of X</p></div>
+     <p id="myOutput">Answer</p>
+     <p id="ChangeX">Change of X</p>
      </div>
      
    
@@ -113,9 +103,15 @@
         var a;
         var b;
         var c;
+       // xn is first guess
         var xn;
+        // delta is not input, but used to measure convergence
         var delta;
-        var precision;
+        // precision is a user input of how precise they want the answer
+        var precision = 0.1;
+        
+        
+        console.log("Before inputs");
         
         $("#inputA").keyup(function(e){
           a = $(this).val();
@@ -151,7 +147,8 @@
           var func;
           var deriv;
           var ans;
-          var det;
+         // var det;
+           
            
            $("#myButton").click(function(){
              
@@ -172,9 +169,32 @@
             c = 0;
           }
           
-          //Set descriminant - checking for imaginary number
-          dscr = b*b-(4*a*c); //call function
           
+          console.log("Just before do loop");
+          
+          
+           console.log("Inside do loop");
+          //Set f(x)
+           func = a*xn*xn + b*xn + c
+          
+          //Set f'(x)
+          deriv = 2*a*xn + b;
+          
+          //Set Answer
+          ans = xn - func/deriv;
+          
+          delta = xn;
+          
+          //showing results
+            var Result = "";
+            
+            //counter
+            var counter = 0;
+          do {
+            
+           
+
+          console.log("Inside do loop");
           //Set f(x)
            func = a*xn*xn + b*xn + c
           
@@ -184,26 +204,23 @@
           //Set Answer
           ans = xn - func/deriv;
              
-          //Validation   
-          if (dscr < 0)
-          {
-            // Imaginary Number Check
-            $('#myOutput').html( "Imaginary Number");
+      
+      console.log("Delta:")
+      console.log(delta);
+      console.log("Answer:")
+      console.log(ans)
+      delta = ans - xn;
+      xn = ans;
+      counter ++ ;
+      Result += "x" + counter + "= " + ans + "<br>";
           }
-          // if Derivative == 0
-          else if (deriv == 0)
-          {
-             console.log("deriv = 0 ");
-             console.log(deriv);
-             $('#myOutput').html( "No convergence. Derivative = 0. Choose new Xn.");
-          }
-          //Passes Validation
-          else{
-                   
-            $('#myOutput').html(ans);
-            
-              }
-    });
+          while (delta > precision || delta < (precision*-1));
+          
+          $('#myOutput').html(Result);
+          $('#ChangeX').html(delta);
+       });
+          
+          
            //Fade In Animation Occurs when Enter Button is Pressed
             $("#myButton").click(function(){
                  //Fades in different pieces
@@ -211,46 +228,11 @@
                $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
                $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
 
-          })//End of HTML.ready
-  
-      //More Precision Button Clicked  (Xn loops)
-      $('#precision').click(function(){
-        
-        xn = ans;
-        
-         func = a*xn*xn + b*xn + c
-         // console.log(func);
-          
-          deriv = 2*a*xn + b;
-          //console.log(deriv);
-          
-          ans = xn - func/deriv;
-             
-            $('#myOutput').html(ans);
-      })
-
-        });
-  
-        //Example from Gerald of Recursion
-        function thing(x){
-          if (thing(x-1)-3) {break;}else{};
-          
-        };
-        
-        //Checking precision
-         function converge(delta, precision){
-           
-           if (delta < precision){
-             break
-           }
-           else{
-             
-             //Run function again
-             
-           }
-         }
-          
+            
+          });
       
+      
+       });
     
   </script>
 </body>
