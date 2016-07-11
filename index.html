@@ -27,6 +27,23 @@
     margin-right: auto;
     box-shadow: 10px 10px 5px grey;
 }
+
+.col-xs-6{
+
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+    border: 2px solid #b94646;
+    box-shadow: 10px 10px 5px grey;
+
+}
+.row{
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .col-xs-2{
 
     width: 100px;
@@ -48,8 +65,7 @@
 </head>
 
 <body>
-  <h1 align="center">Newton's Method <small> Coming Soon!</small></h1>
-  
+  <h1 align="center">Newton's Method <small>Coming Soon!</small></h1>
 
 <div class="jumbotron">
   
@@ -81,24 +97,32 @@
         
         <!--Enter Button-->
         <button type="button" class="btn btn-primary" id= "myButton" >Enter</button>
-        <!--Precision Button-->
-        <button type="button" class="btn btn-primary" id= "precision" >More Precision</button>
-
+       
      </div><!--Close Jumbotron-->
      
-     <div class="jumbotron" style="visibility: hidden;" id="JumbotronAnswer">
-     <!--Output-->
-     <p id="myOutput">Answer</p>
-     <p id="ChangeX">Change of X</p>
-     </div>
-     
-   
+   <!-- <div class="jumbotron" style="visibility: hidden;" id="JumbotronAnswer"> -->
 
+     <!-- <div class="col-xs-6">Output-->
+<div class="row" style="width: 80%" align="left" >
+    <div class="col-xs-6" style="visibility: hidden;"><p id="myOutput">Answer</p></div>
+    <div class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
+    </div>
+   
   <script>
     
       $( document ).ready(function() {
-        
-        
+
+            //Fade In Animation Occurs when Enter Button is Pressed
+            $("#myButton").click(function(){
+                 
+              //Fades in different pieces
+              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+               $('.col-xs-6 ').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
+               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+
+            });
+
         // Getting input variables
         var a;
         var b;
@@ -141,13 +165,12 @@
         }
           )
            
-         // OUTPUT
+         // OUTPUT-
                
           //doing the math
           var func;
           var deriv;
           var ans;
-         // var det;
            
            
            $("#myButton").click(function(){
@@ -169,11 +192,7 @@
             c = 0;
           }
           
-          
-          console.log("Just before do loop");
-          
-          
-           console.log("Inside do loop");
+
           //Set f(x)
            func = a*xn*xn + b*xn + c
           
@@ -185,16 +204,16 @@
           
           delta = xn;
           
-          //showing results
+
+            //showing results
             var Result = "";
+            var ChangeOfxResult = "";
             
             //counter
             var counter = 0;
-          do {
-            
-           
 
-          console.log("Inside do loop");
+          do { //Beginning of Loop for amount of itterations
+            
           //Set f(x)
            func = a*xn*xn + b*xn + c
           
@@ -204,35 +223,31 @@
           //Set Answer
           ans = xn - func/deriv;
              
-      
-      console.log("Delta:")
-      console.log(delta);
-      console.log("Answer:")
-      console.log(ans)
-      delta = ans - xn;
-      xn = ans;
-      counter ++ ;
-      Result += "x" + counter + "= " + ans + "<br>";
+          //Set Delta
+          delta = ans - xn;
+
+          xn = ans;
+
+          //Adding counter
+          counter ++ ;
+
+          //Writing to MyOutput String
+          Result += "x" + counter + "= " + ans + "<br>";
+
+          //Writing to ChangeX string
+          ChangeOfxResult += "Change of: X" + counter + "= " + delta + "<br>";
+
           }
+
           while (delta > precision || delta < (precision*-1));
           
+          //Outputting results to webpage
           $('#myOutput').html(Result);
-          $('#ChangeX').html(delta);
+          $('#ChangeX').html(ChangeOfxResult);
        });
           
-          
-           //Fade In Animation Occurs when Enter Button is Pressed
-            $("#myButton").click(function(){
-                 //Fades in different pieces
-               $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
-               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-
-            
-          });
-      
-      
-       });
+    
+       });//Don't delete
     
   </script>
 </body>
