@@ -112,26 +112,30 @@
     
       $( document ).ready(function() {
 
-            //Fade In Animation Occurs when Enter Button is Pressed
-            $("#myButton").click(function(){
+        //Fade In Animation Occurs when Enter Button is Pressed
+           $("#myButton").click(function(){
                  
-              //Fades in different pieces
-              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('.col-xs-6 ').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
-               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+        //Fades in different pieces
+        // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+           $('.col-xs-6 ').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+           $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
+           $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
 
-            });
+         });
 
+                                                                                    
+                                                                                    
+                                                                                    //   ~INPUT~
+        
         // Getting input variables
         var a;
         var b;
         var c;
        // xn is first guess
         var xn;
-        // delta is not input, but used to measure convergence
-        var delta;
-        // precision is a user input of how precise they want the answer
+        
+        // precision will be? a user input of how precise they want the answer
+        // currently set to default 0.1
         var precision = 0.1;
         
         
@@ -165,12 +169,15 @@
         }
           )
            
-         // OUTPUT-
+                                                                                // ~OUTPUT~
+                                                                                
                
           //doing the math
-          var func;
-          var deriv;
-          var ans;
+          var func;  // function
+          var deriv;  // derivative
+          var ans;    // answer
+          // delta is used to measure convergence
+          var delta;
            
            
            $("#myButton").click(function(){
@@ -202,6 +209,9 @@
           //Set Answer
           ans = xn - func/deriv;
           
+          // delta starts as the first guess equal to whatever value to user inputs.
+          // during the do loop it is set to = ans - xn, effectively making it the difference between the most recent
+          // answer and the last answer.
           delta = xn;
           
 
@@ -212,23 +222,22 @@
             //counter
             var counter = 0;
 
-          do { //Beginning of Loop for amount of itterations
+          do { //Beginning of Loop for amount of iterations
             
           //Set f(x)
            func = a*xn*xn + b*xn + c
-          
           //Set f'(x)
           deriv = 2*a*xn + b;
-          
           //Set Answer
           ans = xn - func/deriv;
              
           //Set Delta
           delta = ans - xn;
 
+          // xn will be set to the new answer in preparation for another loop
           xn = ans;
 
-          //Adding counter
+          //Adding counter to track number of loop iterations
           counter ++ ;
 
           //Writing to MyOutput String
@@ -237,6 +246,17 @@
           //Writing to ChangeX string
           ChangeOfxResult += "Change of: X" + counter + "= " + delta + "<br>";
 
+
+          
+          // case for imaginary numbers
+          if (counter > 10000)
+          {
+            Result = "It looks like this function doesn't converge to a root!" + "<br>" + Result;
+            
+            break;
+            
+            }
+          
           }
 
           while (delta > precision || delta < (precision*-1));
