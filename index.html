@@ -26,6 +26,8 @@
     margin-left: auto;
     margin-right: auto;
     box-shadow: 10px 10px 5px grey;
+    background-color: #f2f2f2;
+
 }
 
 .col-xs-6{
@@ -36,12 +38,15 @@
     padding-left: 80px;
     border: 2px solid #b94646;
     box-shadow: 10px 10px 5px grey;
+    background-color: #e6e6e6;
+
 
 }
 .row{
 
     margin-left: auto;
     margin-right: auto;
+    
 }
 
 .col-xs-2{
@@ -73,7 +78,7 @@
     <div class="col-xs-2">
         
         <!--inputA-->
-        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus><span>x^2</span>
+        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus>
          </div>
          
     <div class="col-xs-2">
@@ -102,7 +107,11 @@
     </div>
         
         <!--Enter Button-->
-        <button type="button" class="btn btn-primary" id= "myButton" >Enter</button>
+        <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
+        <!--Clear Button-->
+        <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
+        <!--Insert Button-->
+        <button type="button" class="btn btn-info" id= "InsertButton" >Insert</button>
        
      </div><!--Close Jumbotron-->
      
@@ -118,15 +127,13 @@
     
       $( document ).ready(function() {
 
-        //Fade In Animation Occurs when Enter Button is Pressed
+        //Fade In Animation Occurs when Check Button is Pressed
            $("#myButton").click(function(){
-                 
         //Fades in different pieces
         // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
            $('.col-xs-6 ').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
            $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
            $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-
          });
 
                                                                                     
@@ -142,7 +149,7 @@
        // precision is a user input of how precise they want the answer
         var precision; 
         
-        
+        /*
         console.log("Before inputs");
         
         $("#inputA").keyup(function(e){
@@ -179,6 +186,7 @@
          // console.log(precision);          
         }
           )
+          */
            
                                                                                 // ~OUTPUT~
                                                                                 
@@ -192,6 +200,18 @@
            
            
            $("#myButton").click(function(){
+
+          //Populating variables
+          a = $("#inputA").val();
+          a = parseInt(a);
+          b = $("#inputB").val();
+          b = parseInt(b);
+          c = $("#inputC").val();
+          c = parseInt(c);
+          xn = $("#inputXn").val();
+          xn = parseInt(xn);
+          precision = $("#inputPrecision").val();
+          precision = parseInt(precision);
              
              // Check if input is 0 or null          
           if( a == 0 || a == null )
@@ -277,7 +297,28 @@
           $('#ChangeX').html(ChangeOfxResult);
        });
           
-    
+           //Clear Button
+        $("#ClearButton").click(function(){
+           
+            $('#inputA').val('');
+            $('#inputB').val('');
+            $('#inputC').val('');
+            $('#inputXn').val('');
+            $('#inputPrecision').val('');
+
+           });//Clear Button end
+
+         //Insert Button
+        $("#InsertButton").click(function(){
+           
+            $('#inputA').val('1');
+            $('#inputB').val('-1');
+            $('#inputC').val('-6');
+            $('#inputXn').val('1');
+            $('#inputPrecision').val('0.001');
+
+           });//Insert Button end
+
        });//Don't delete
     
   </script>
