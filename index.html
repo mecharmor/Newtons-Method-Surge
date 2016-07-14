@@ -14,49 +14,26 @@
   
   <!--CSS Added-->
 <style type="text/css">
+
+body{
+  background-image: url("pictures/background.jpg");
+}
  
 .jumbotron{
-
     padding-top: 50px;
-    padding-right: 30px;
+    padding-right: 20px;
     padding-bottom: 50px;
-    padding-left: 80px;
-    border: 2px solid #b94646;
+    padding-left: 20px;
+    border: 2px solid #737373;
     width: 80%;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 10px 10px 5px grey;
-    background-color: #f2f2f2;
-
-}
-
-.col-xs-6{
-
-    padding-top: 50px;
-    padding-right: 30px;
-    padding-bottom: 50px;
-    padding-left: 80px;
-    border: 2px solid #b94646;
-    box-shadow: 10px 10px 5px grey;
-    background-color: #e6e6e6;
-
-
-}
-.row{
-
-    margin-left: auto;
-    margin-right: auto;
-    
-}
-
-.col-xs-2{
-
-    width: 100px;
 }
 
   h1{
   color: white;
-    text-shadow: 1px 1px 2px #b94646, 0 0 25px gray, 0 0 5px gray;
+    text-shadow: 1px 1px 2px #e6e6e6, 0 0 25px gray, 0 0 5px gray;
 }
 
 </style>
@@ -72,69 +49,104 @@
 <body>
   <h1 align="center">Newton's Method <small>Coming Soon!</small></h1>
 
-<div class="jumbotron">
+<div class="jumbotron" style= "background-color: #e6e6e6;">
   
+  <div class = "row">
   <!--Same Inputs but with new styling-->
     <div class="col-xs-2">
-        
-        <!--inputA-->
-        <input type="text" class="form-control" id="inputA" placeholder="x^2" autofocus>
-         </div>
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">X^2</span>
+          <!--inputA-->
+          <input type="text" class="form-control" id="inputA" placeholder="#" autofocus>
+        </div>
+    </div>
          
     <div class="col-xs-2">
-        
-        <!--inputB-->
-        <input type="text" class="form-control" id="inputB" placeholder="x">
-    
-    </div>    
-    <div class="col-xs-2">
-        
-        <!--inputC-->
-        <input type="text" class="form-control" id="inputC" placeholder="c">
-    
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">X</span>
+          <!--inputB-->
+          <input type="text" class="form-control" id="inputB" placeholder="#">
+        </div>
     </div>
-    <div class="col-xs-2">
-        
-        <!--inputXn-->
-        <input type="text" class="form-control" id="inputXn" placeholder="Xn">
 
-    </div>
     <div class="col-xs-2">
-        
-        <!--inputPrecision-->
-        <input type="text" class="form-control" id="inputPrecision" placeholder="Precision">
-
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">c</span>
+          <!--inputC-->
+          <input type="text" class="form-control" id="inputC" placeholder="#">
+        </div>
     </div>
-        
-        <!--Enter Button-->
-        <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
-        <!--Clear Button-->
-        <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
-        <!--Insert Button-->
-        <button type="button" class="btn btn-info" id= "InsertButton" >Insert</button>
-       
+
+    <div class="col-xs-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">Xn</span>
+          <!--inputXn-->
+          <input type="text" class="form-control" id="inputXn" placeholder="#">
+        </div>
+    </div>
+
+    <div class="col-xs-2">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">0.01</span>
+          <!--inputPrecision-->
+          <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
+        </div>
+    </div>
+   
+        <div class="col-xs-2">
+          <!--Enter Button-->
+          <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
+          <!--Clear Button-->
+          <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
+          <!--Insert Button-->
+          <button type="button" class="btn btn-info" id= "InsertButton" ><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+  </div><!--Row End-->
+        <br>
+        <div class="row">
+       <div class="col-xs-6">
+       <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
+       <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
+       </div>
+       <div class="col-xs-6">
+       <p>wee</p>
+       </div>
+
+     </div>
+      
+
      </div><!--Close Jumbotron-->
-     
-   <!-- <div class="jumbotron" style="visibility: hidden;" id="JumbotronAnswer"> -->
 
-     <!-- <div class="col-xs-6">Output-->
-<div class="row" style="width: 80%" align="left" >
-    <div class="col-xs-6" style="visibility: hidden;"><p id="myOutput">Answer</p></div>
-    <div class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
+
+    <!--Second Jumbotron [contains answers]-->
+
+    <div class="jumbotron" id="AnswersJumbotron" style="visibility: hidden; background-color: #e6e6e6;" align="left">
+      <div class="row">
+          <div id = "col_Left" class="col-xs-6" style="visibility: hidden;"><p id="myOutput">Answer</p></div>
+          <div id = "col_Right" class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
+      </div>
     </div>
+
+
+
    
   <script>
     
       $( document ).ready(function() {
 
-        //Fade In Animation Occurs when Check Button is Pressed
+          //Fade In Animation Occurs when Check Button is Pressed
+          var FadeInOnceOnly = 0;
            $("#myButton").click(function(){
+            //if statement prevents fade in more than once
+            if(FadeInOnceOnly == 0){
+              FadeInOnceOnly++;
         //Fades in different pieces
         // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-           $('.col-xs-6 ').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+           $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
            $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
            $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-         });
+         }
+            });
 
                                                                                     
                                                                                     
@@ -198,6 +210,17 @@
           // delta is used to measure convergence
           var delta;
            
+          //Slider #
+          var SliderValue = 1
+        //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
+        $(document).on('input', '#MySlider', function() {
+         SliderValue = $(this).val()
+        $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
+        //console.log(SliderValue);
+
+        });
+
+
            
            $("#myButton").click(function(){
 
@@ -272,17 +295,17 @@
           counter ++ ;
 
           //Writing to MyOutput String
-          Result += "x" + counter + "= " + ans + "<br>";
+          Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
 
           //Writing to ChangeX string
-          ChangeOfxResult += "Change of: X" + counter + "= " + delta + "<br>";
-
+          ChangeOfxResult += "<span class = 'glyphicon glyphicon-triangle-top'></span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
 
           
           // case for imaginary numbers
           if (counter > 10000)
           {
-            Result = "It looks like this function doesn't converge to a root!" + "<br>" + Result;
+            Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
+            ChangeOfxResult = "";
             
             break;
             
@@ -305,6 +328,21 @@
             $('#inputC').val('');
             $('#inputXn').val('');
             $('#inputPrecision').val('');
+
+            //Clears Variables
+            Result = "";
+            ChangeOfxResult = "";
+            counter = 0;
+             a = 0;
+             b = 0;
+             c = 0;
+            xn = 0;
+            precision = 0.01; 
+            func = 0;
+            deriv = 0;
+            ans = 0;
+            delta = 0;
+            FadeInOnceOnly = 0;
 
            });//Clear Button end
 
