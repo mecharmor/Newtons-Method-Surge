@@ -145,6 +145,10 @@ body{
            $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
            $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
            $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+
+           $("#AnswersJumbotron").show(1000);
+             $("#myOutput").show(1500);
+              $("#ChangeX").show(2000);
          }
             });
 
@@ -343,6 +347,9 @@ body{
             ans = 0;
             delta = 0;
             FadeInOnceOnly = 0;
+            $("#AnswersJumbotron").hide(2000);
+             $("#myOutput").hide(1500);
+              $("#ChangeX").hide(1000);
 
            });//Clear Button end
 
