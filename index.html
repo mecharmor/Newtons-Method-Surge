@@ -12,8 +12,12 @@
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
   
-  <!--CSS Added-->
-<style type="text/css">
+        <script src="js/mathjs.js"></script>
+  
+         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
+  
+        <!--CSS Added-->
+        <style type="text/css">
 
 body{
   background-image: url("pictures/background.jpg");
@@ -126,35 +130,76 @@ body{
           <div id = "col_Right" class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
       </div>
     </div>
+    
+    
+    <div class = "jumbotron">
+    <input type="text" class="form-control" id="inputfunction" placeholder="function">
+		<p id = "OutputParagraph">Output</p>
 
-
-
+	</div>
+  
+  <div class = "jumbotron">
+     <div id="myGraph" class="jxgbox center-block" style='width:400px; height:250px; border: 1px solid lightgray'></div>
+	</div>
    
   <script>
-    
+       var board;
       $( document ).ready(function() {
+
+            
+            //Grapher Stuff
+            board = JXG.JSXGraph.initBoard('myGraph',
+                     {
+                         boundingbox:[-7,2,7,-2],
+                         axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
+                         grid: { strokeWidth: 0.75 },
+                         showCopyright: false,
+                         showNavigation: false,
+                         keepaspectratio: false, //square graph coming in
+                         zoom: {
+                            factorX: 1.25,  // horizontal zoom factor (multiplied to JXG.Board#zoomX)
+                            factorY: 1.25,  // vertical zoom factor (multiplied to JXG.Board#zoomY)
+                            wheel: true,   // allow zooming by mouse wheel
+                            needshift: false, // mouse wheel zooming needs pressing of the shift key
+                             eps: 0.1        // minimal values of JXG.Board#zoomX and JXG.Board#zoomY
+                         },
+                         pan: {
+                            enabled: true,   // Allow panning
+                            needTwoFingers: true, // panningis done with two fingers on touch devices
+                            needshift: false, // mouse panning needs pressing of the shift key
+                         }
+                         
+                     });
+                     
+                   
+
+         });
+            
+            
+            
+            
 
           //Fade In Animation Occurs when Check Button is Pressed
           var FadeInOnceOnly = 0;
            $("#myButton").click(function(){
-            //if statement prevents fade in more than once
-            if(FadeInOnceOnly == 0){
-              FadeInOnceOnly++;
-        //Fades in different pieces
-        // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-           $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-           $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
-           $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-
-           $("#AnswersJumbotron").show(1000);
-             $("#myOutput").show(1500);
-              $("#ChangeX").show(2000);
-         }
+                    //if statement prevents fade in more than once
+                      if(FadeInOnceOnly == 0){
+                              FadeInOnceOnly++;
+                              //Fades in different pieces
+                              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+                              $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+                              $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
+                              $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+                    
+                              $("#AnswersJumbotron").show(1000);
+                                $("#myOutput").show(1500);
+                                  $("#ChangeX").show(2000);
+                      }
             });
 
                                                                                     
                                                                                     
-                                                                                    //   ~INPUT~
+                                                                             //   ~INPUT~
         
         // Getting input variables
         var a;
@@ -165,57 +210,21 @@ body{
        // precision is a user input of how precise they want the answer
         var precision; 
         
-        /*
+        
         console.log("Before inputs");
         
-        $("#inputA").keyup(function(e){
-          a = $(this).val();
-          a = parseInt(a);
-         // console.log(a);          
-        }
-          )
-          
-        $("#inputB").keyup(function(e){
-          b = $(this).val();
-          b = parseInt(b);
-         // console.log(b);          
-        }
-          )
-        
-         $("#inputC").keyup(function(e){
-          c = $(this).val();
-          c = parseInt(c);
-         // console.log(c);          
-        }
-          )
-          
-          $("#inputXn").keyup(function(e){
-          xn = $(this).val();
-          xn = parseInt(xn);
-         // console.log(xn);          
-        }
-          )
-          
-           $("#inputPrecision").keyup(function(e){
-          precision = $(this).val();
-          precision = parseInt(precision);
-         // console.log(precision);          
-        }
-          )
-          */
-           
                                                                                 // ~OUTPUT~
                                                                                 
                
-          //doing the math
-          var func;  // function
-          var deriv;  // derivative
-          var ans;    // answer
-          // delta is used to measure convergence
-          var delta;
+        //doing the math
+        var func;  // function
+        var deriv;  // derivative
+        var ans;    // answer
+        // delta is used to measure convergence
+        var delta;
            
-          //Slider #
-          var SliderValue = 1
+        //Slider #
+        var SliderValue = 1
         //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
         $(document).on('input', '#MySlider', function() {
          SliderValue = $(this).val()
@@ -228,100 +237,98 @@ body{
            
            $("#myButton").click(function(){
 
-          //Populating variables
-          a = $("#inputA").val();
-          a = parseInt(a);
-          b = $("#inputB").val();
-          b = parseInt(b);
-          c = $("#inputC").val();
-          c = parseInt(c);
-          xn = $("#inputXn").val();
-          xn = parseInt(xn);
-          precision = $("#inputPrecision").val();
-          precision = parseInt(precision);
+                //Populating variables
+                a = $("#inputA").val();
+                a = parseInt(a);
+                b = $("#inputB").val();
+                b = parseInt(b);
+                c = $("#inputC").val();
+                c = parseInt(c);
+                xn = $("#inputXn").val();
+                xn = parseInt(xn);
+                precision = $("#inputPrecision").val();
+                precision = parseInt(precision);
              
-             // Check if input is 0 or null          
-          if( a == 0 || a == null )
-          {
-            console.log("If-then A worked");
-            a = 0;
-          }          
-          if( b == 0 || b == null )
-          {
-            console.log("If-then B worked");
-            b = 0;
-          }          
-          if( c == 0 || c == null )
-          {
-            console.log("If-then C worked");
-            c = 0;
-          }
+                  // Check if input is 0 or null          
+                if( a == 0 || a == null )
+                {
+                  console.log("If-then A worked");
+                  a = 0;
+                }          
+                if( b == 0 || b == null )
+                {
+                  console.log("If-then B worked");
+                  b = 0;
+                }          
+                if( c == 0 || c == null )
+                {
+                  console.log("If-then C worked");
+                  c = 0;
+                }
           
 
-          //Set f(x)
-           func = a*xn*xn + b*xn + c
-          
-          //Set f'(x)
-          deriv = 2*a*xn + b;
-          
-          //Set Answer
-          ans = xn - func/deriv;
-          
-          // delta starts as the first guess equal to whatever value to user inputs.
-          // during the do loop it is set to = ans - xn, effectively making it the difference between the most recent
-          // answer and the last answer.
-          delta = xn;
-          
-
-            //showing results
-            var Result = "";
-            var ChangeOfxResult = "";
+                //Set f(x)
+                func = a*xn*xn + b*xn + c
+                
+                //Set f'(x)
+                deriv = 2*a*xn + b;
+                
+                //Set Answer
+                ans = xn - func/deriv;
+                
+                // delta starts as the first guess equal to whatever value to user inputs.
+                // during the do loop it is set to = ans - xn, effectively making it the difference between the most recent
+                // answer and the last answer.
+                delta = xn;
             
-            //counter
-            var counter = 0;
 
-          do { //Beginning of Loop for amount of iterations
-            
-          //Set f(x)
-           func = a*xn*xn + b*xn + c
-          //Set f'(x)
-          deriv = 2*a*xn + b;
-          //Set Answer
-          ans = xn - func/deriv;
-             
-          //Set Delta
-          delta = ans - xn;
+                //showing results
+                var Result = "";
+                var ChangeOfxResult = "";
+                
+                //counter
+                var counter = 0;
 
-          // xn will be set to the new answer in preparation for another loop
-          xn = ans;
-
-          //Adding counter to track number of loop iterations
-          counter ++ ;
-
-          //Writing to MyOutput String
-          Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
-
-          //Writing to ChangeX string
-          ChangeOfxResult += "<span class = 'glyphicon glyphicon-triangle-top'></span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
-
+              do { //Beginning of Loop for amount of iterations
+                
+                    //Set f(x)
+                    func = a*xn*xn + b*xn + c
+                    //Set f'(x)
+                    deriv = 2*a*xn + b;
+                    //Set Answer
+                    ans = xn - func/deriv;
+                      
+                    //Set Delta
+                    delta = ans - xn;
           
-          // case for imaginary numbers
-          if (counter > 10000)
-          {
-            Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
-            ChangeOfxResult = "";
-            
-            break;
-            
-            }
+                    // xn will be set to the new answer in preparation for another loop
+                    xn = ans;
           
-          }
-
-          while (delta > precision || delta < (precision*-1));
+                    //Adding counter to track number of loop iterations
+                    counter ++ ;
           
-          //Outputting results to webpage
-          $('#myOutput').html(Result);
-          $('#ChangeX').html(ChangeOfxResult);
+                    //Writing to MyOutput String
+                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
+          
+                    //Writing to ChangeX string
+                    ChangeOfxResult += "<span class = 'glyphicon glyphicon-triangle-top'></span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
+          
+                    
+                    // case for imaginary numbers
+                    if (counter > 10000)
+                    {
+                      Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
+                      ChangeOfxResult = "";
+                      
+                      break;
+                      
+                     }
+              
+              } while (delta > precision || delta < (precision*-1));
+              
+           //Outputting results to webpage
+           $('#myOutput').html(Result);
+           $('#ChangeX').html(ChangeOfxResult);
        });
           
            //Clear Button
@@ -348,12 +355,12 @@ body{
             delta = 0;
             FadeInOnceOnly = 0;
             $("#AnswersJumbotron").hide(2000);
-             $("#myOutput").hide(1500);
-              $("#ChangeX").hide(1000);
+            $("#myOutput").hide(1500);
+            $("#ChangeX").hide(1000);
 
-           });//Clear Button end
+         });//Clear Button end
 
-         //Insert Button
+        //Insert Button
         $("#InsertButton").click(function(){
            
             $('#inputA').val('1');
@@ -362,10 +369,36 @@ body{
             $('#inputXn').val('1');
             $('#inputPrecision').val('0.001');
 
-           });//Insert Button end
+         });//Insert Button end
+           
+       var DrawingGraph;
+       
+       $('#inputfunction').on("keypress", function(e) {
 
-       });//Don't delete
+            if (e.keyCode == 13) {
+      
+                  var input = $('#inputfunction').val();
+                  var out = mathjs(input, 'x');
+            
+                  $("#OutputParagraph").html(out);
+                
+                     board.removeObject(DrawingGraph);
+                     
+                  // Create a function graph for f(x) = sin(x)
+                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(out);}]);
+                
+            }//end if     
+      
+      });//Closes on keypress
+      
+      // go get algebraics library for derivatives
+      // send algebraics the user input
+      // get back derivative send to math.js
+      // calculations
+      
     
   </script>
 </body>
 </html>
+
+
