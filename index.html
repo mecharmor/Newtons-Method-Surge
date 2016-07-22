@@ -15,14 +15,17 @@
         <script src="js/mathjs.js"></script>
   
          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
-  
+
+         <head>
+            <link rel="stylesheet" type="text/css" href="css/Range.css">
+         </head>
         <!--CSS Added-->
         <style type="text/css">
 
 body{
   background-image: url("pictures/background.jpg");
 }
- 
+
 .jumbotron{
     padding-top: 50px;
     padding-right: 20px;
@@ -57,55 +60,40 @@ body{
   
   <div class = "row">
   <!--Same Inputs but with new styling-->
-    <div class="col-xs-2">
+    <div class="col-xs-6">
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">X^2</span>
-          <!--inputA-->
-          <input type="text" class="form-control" id="inputA" placeholder="#" autofocus>
+            <span class="input-group-addon" id="basic-addon1">f(x)</span>
+            <!--inputA-->
+            <input type="text" class="form-control" id="inputfunction" placeholder="Enter Function">
         </div>
     </div>
          
     <div class="col-xs-2">
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">X</span>
-          <!--inputB-->
-          <input type="text" class="form-control" id="inputB" placeholder="#">
+            <span class="input-group-addon" id="basic-addon1">Xn</span>
+            <!--inputXn-->
+            <input type="text" class="form-control" id="inputXn" placeholder="#">
         </div>
     </div>
 
     <div class="col-xs-2">
         <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">c</span>
-          <!--inputC-->
-          <input type="text" class="form-control" id="inputC" placeholder="#">
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">Xn</span>
-          <!--inputXn-->
-          <input type="text" class="form-control" id="inputXn" placeholder="#">
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="input-group">
-          <span class="input-group-addon" id="basic-addon1">0.01</span>
-          <!--inputPrecision-->
-          <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
+            <span class="input-group-addon" id="basic-addon1">0.01</span>
+            <!--inputPrecision-->
+            <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
         </div>
     </div>
    
         <div class="col-xs-2">
-          <!--Enter Button-->
-          <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
-          <!--Clear Button-->
-          <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
-          <!--Insert Button-->
-          <button type="button" class="btn btn-info" id= "InsertButton" ><span class="glyphicon glyphicon-plus"></span></button>
+            <!--Enter Button-->
+            <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
+            <!--Clear Button-->
+            <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
+            <!--Insert Button-->
+            <button type="button" class="btn btn-info" id= "InsertButton" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>
-  </div><!--Row End-->
+
+</div><!--Row End-->
         <br>
         <div class="row">
        <div class="col-xs-6">
@@ -121,31 +109,23 @@ body{
 
      </div><!--Close Jumbotron-->
 
+      <!--Graph Div-->
+     <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;"> 
+          <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray'></div>
+     </div>
 
-    <!--Second Jumbotron [contains answers]-->
-
+    <!--Ans Div-->
     <div class="jumbotron" id="AnswersJumbotron" style="visibility: hidden; background-color: #e6e6e6;" align="left">
       <div class="row">
           <div id = "col_Left" class="col-xs-6" style="visibility: hidden;"><p id="myOutput">Answer</p></div>
           <div id = "col_Right" class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
       </div>
     </div>
-    
-    
-    <div class = "jumbotron">
-    <input type="text" class="form-control" id="inputfunction" placeholder="function">
-		<p id = "OutputParagraph">Output</p>
-
-	</div>
-  
-  <div class = "jumbotron">
-     <div id="myGraph" class="jxgbox center-block" style='width:400px; height:250px; border: 1px solid lightgray'></div>
-	</div>
    
   <script>
+       
        var board;
       $( document ).ready(function() {
-
             
             //Grapher Stuff
             board = JXG.JSXGraph.initBoard('myGraph',
@@ -172,50 +152,16 @@ body{
                      });
                      
                    
-
-         });
+       });
             
-            
-            
-            
-
           //Fade In Animation Occurs when Check Button is Pressed
           var FadeInOnceOnly = 0;
-           $("#myButton").click(function(){
-                    //if statement prevents fade in more than once
-                      if(FadeInOnceOnly == 0){
-                              FadeInOnceOnly++;
-                              //Fades in different pieces
-                              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-                              $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-                              $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
-                              $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-                    
-                              $("#AnswersJumbotron").show(1000);
-                                $("#myOutput").show(1500);
-                                  $("#ChangeX").show(2000);
-                      }
-            });
-
-                                                                                    
-                                                                                    
-                                                                             //   ~INPUT~
         
-        // Getting input variables
-        var a;
-        var b;
-        var c;
        // xn is first guess
         var xn;
        // precision is a user input of how precise they want the answer
         var precision; 
-        
-        
-        console.log("Before inputs");
-        
-                                                                                // ~OUTPUT~
-                                                                                
-               
+                                                                                    
         //doing the math
         var func;  // function
         var deriv;  // derivative
@@ -225,6 +171,7 @@ body{
            
         //Slider #
         var SliderValue = 1
+       
         //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
         $(document).on('input', '#MySlider', function() {
          SliderValue = $(this).val()
@@ -233,41 +180,49 @@ body{
 
         });
 
+           var DrawingGraph; //Draw Object
 
-           
-           $("#myButton").click(function(){
+      $("#myButton").click(function(){
+
+              var input = $('#inputfunction').val();
+
+          // Check if input is 0 or null
+          if(input != 0){ //checking for bad input
+
+             //if statement prevents fade in more than once
+                      if(FadeInOnceOnly == 0){
+                              FadeInOnceOnly++;
+                              //Fades in different pieces
+                              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+                              $('#GraphDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+                              $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+                              $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
+                              $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
+                    
+                              $("#GraphDiv").show(500);
+                              $("#AnswersJumbotron").show(1000);
+                              $("#myOutput").show(1500);
+                              $("#ChangeX").show(2000);
+                      }
+
+                  var out = mathjs(input, 'x');
+            
+                   //$("#OutputParagraph").html(out);  outputted string to webpage - old
+                   board.removeObject(DrawingGraph);
+                     
+                   // Create a function graph for f(x) = sin(x)
+                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(out);}]);
 
                 //Populating variables
-                a = $("#inputA").val();
-                a = parseInt(a);
-                b = $("#inputB").val();
-                b = parseInt(b);
-                c = $("#inputC").val();
-                c = parseInt(c);
                 xn = $("#inputXn").val();
                 xn = parseInt(xn);
                 precision = $("#inputPrecision").val();
                 precision = parseInt(precision);
              
-                  // Check if input is 0 or null          
-                if( a == 0 || a == null )
-                {
-                  console.log("If-then A worked");
-                  a = 0;
-                }          
-                if( b == 0 || b == null )
-                {
-                  console.log("If-then B worked");
-                  b = 0;
-                }          
-                if( c == 0 || c == null )
-                {
-                  console.log("If-then C worked");
-                  c = 0;
-                }
+                  
           
 
-                //Set f(x)
+               /* //Set f(x)
                 func = a*xn*xn + b*xn + c
                 
                 //Set f'(x)
@@ -326,17 +281,20 @@ body{
               
               } while (delta > precision || delta < (precision*-1));
               
-           //Outputting results to webpage
-           $('#myOutput').html(Result);
-           $('#ChangeX').html(ChangeOfxResult);
+                     //Outputting results to webpage
+                     $('#myOutput').html(Result);
+                     $('#ChangeX').html(ChangeOfxResult);
+*/
+        }else{ //validation if
+                 alert("Bad Input")
+               }
+          
        });
           
            //Clear Button
         $("#ClearButton").click(function(){
            
-            $('#inputA').val('');
-            $('#inputB').val('');
-            $('#inputC').val('');
+            $('#inputfunction').val('');
             $('#inputXn').val('');
             $('#inputPrecision').val('');
 
@@ -354,6 +312,7 @@ body{
             ans = 0;
             delta = 0;
             FadeInOnceOnly = 0;
+            $("#GraphDiv").hide(900);
             $("#AnswersJumbotron").hide(2000);
             $("#myOutput").hide(1500);
             $("#ChangeX").hide(1000);
@@ -362,35 +321,14 @@ body{
 
         //Insert Button
         $("#InsertButton").click(function(){
-           
-            $('#inputA').val('1');
-            $('#inputB').val('-1');
-            $('#inputC').val('-6');
+            
+            $('#inputfunction').val('3x^2')
             $('#inputXn').val('1');
             $('#inputPrecision').val('0.001');
 
-         });//Insert Button end
+        });//Insert Button end
            
-       var DrawingGraph;
-       
-       $('#inputfunction').on("keypress", function(e) {
-
-            if (e.keyCode == 13) {
-      
-                  var input = $('#inputfunction').val();
-                  var out = mathjs(input, 'x');
-            
-                  $("#OutputParagraph").html(out);
-                
-                     board.removeObject(DrawingGraph);
-                     
-                  // Create a function graph for f(x) = sin(x)
-                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(out);}]);
-                
-            }//end if     
-      
-      });//Closes on keypress
-      
+             
       // go get algebraics library for derivatives
       // send algebraics the user input
       // get back derivative send to math.js
