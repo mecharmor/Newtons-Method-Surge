@@ -98,23 +98,37 @@ body{
 
 </div><!--Row End-->
         <br>
-        <div class="row">
-       <div class="col-xs-6">
-       <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
-       <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
-       </div>
-       <div class="col-xs-6">
-        <input type="range" id="MySliderPrecision" min="1" max="15" step="1" value="1"></br>
-       <p id="MySliderPrecisionResult" align="center"><kbd>0.001 Precision</kbd></p>
-       </div>
+    <div class="row">
+          <div class="col-xs-6">
+            <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
+            <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
+          </div>
+          
+          <div class="col-xs-6">
+            <input type="range" id="MySliderPrecision" min="1" max="15" step="1" value="1"></br>
+            <p id="MySliderPrecisionResult" align="center"><kbd>0.001 Precision</kbd></p>
+          </div>
      </div>
       
 
      </div><!--Close Jumbotron-->
 
-      <!--Graph Div-->
-     <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;"> 
-          <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray'></div>
+     <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;">
+        <div class="row"> 
+            <div class="col-xs-4" style= "padding-left: 10%; padding-top: 7%; ">
+            <ul>
+                <li><code>Applied Newtons Method</code></li>
+                <li><code>Graphed</code></li>
+                <li><code>Roots Listed Below</code></li>
+            </ul>
+            </div>
+
+            <!--Graph Div-->
+            <div class="col-xs-8">
+                <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray'></div>
+            </div>
+
+        </div>     
      </div>
 
     <!--Ans Div-->
@@ -126,10 +140,30 @@ body{
     </div>
    
   <script>
+
+    //Global Variables
+
+        var xn; // xn is first guess
        
-       var board;
+        var precision; // precision is a user input of how precise they want the answer
+                                                                                   
+        var ans;    // answer
+        
+        var delta;// delta is used to measure convergence
+           
+        var SliderValue = 1 //Slider #
+
+        var board;
+
+        var DrawingGraph; //Draw Object
+    
+        var FadeInOnceOnly = 0;//Fade in once per click
+
+    //End Global Variables
+       
+       
       $( document ).ready(function() {
-            
+
             //Grapher Stuff
             board = JXG.JSXGraph.initBoard('myGraph',
                      {
@@ -155,34 +189,15 @@ body{
                      });
                      
                    
-       });
-            
-          //Fade In Animation Occurs when Check Button is Pressed
-          var FadeInOnceOnly = 0;
+       });//end of document.ready
         
-       // xn is first guess
-        var xn;
-       // precision is a user input of how precise they want the answer
-        var precision; 
-                                                                                   
-       
-        var ans;    // answer
-        // delta is used to measure convergence
-        var delta;
-           
-        //Slider #
-        var SliderValue = 1
-       
         //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
         $(document).on('input', '#MySlider', function() {
-         SliderValue = $(this).val()
-        $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
-        //console.log(SliderValue);
-
+             SliderValue = $(this).val()
+            $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
         });
 
-           var DrawingGraph; //Draw Object
-
+          
       $("#myButton").click(function(){
 
               var initialfunction = $('#inputfunction').val();
@@ -206,6 +221,7 @@ body{
                               $("#ChangeX").show(2000);
                       }
 
+                  //Converting string into JS math
                   var jsinitialfunction = mathjs(initialfunction, 'x');
             
                    //$("#OutputParagraph").html(out);  outputted string to webpage - old
@@ -214,32 +230,32 @@ body{
                    // Create a function graph for f(x) = sin(x)
                    DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
 
-                //Populating variables
-                xn = $("#inputXn").val();
-                xn = parseInt(xn);
-                precision = $("#inputPrecision").val();
-                precision = parseInt(precision);
+                  //Populating Xn & Precision var
+                  xn = $("#inputXn").val();
+                  xn = parseInt(xn);
+
+                  precision = $("#inputPrecision").val();
+                  precision = parseInt(precision);
              
 
-              //var Algebrite = require('algebrite')
-              //'x+x' for testing
-              Algebrite.run('x + x');
+                  //var Algebrite = require('algebrite')
+                  //'x+x' for testing
+                  Algebrite.run('x + x');
 
-              var Dfunction = Algebrite.run('d('+ initialfunction +')');
-              console.log(Dfunction);
+                  //Taking derivative
+                  var Dfunction = Algebrite.run('d('+ initialfunction +')');
 
-              $('#ChangeX').html(Dfunction);
+                  //Converting f'(x) into Javascript Math
+                  var jsDfunction = mathjs(Dfunction, 'x');
 
-              var jsDfunction = mathjs(Dfunction, 'x');
-
-                //showing results
-                var Result = "";
-                var ChangeOfxResult = "";
-                
-                //counter
-                var counter = 0;
+                  //showing results
+                  var Result = "";
+                  var ChangeOfxResult = "";
+                  
+                  //counter
+                  var counter = 0;
             do{
-
+                  //Applying Newtons Method
                   ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
 
                   //Set Delta
@@ -248,8 +264,6 @@ body{
                   //Set new xn
                   xn = ans;
                   console.log(ans);
-
-                   // case for imaginary numbers
                 
                     //Writing to MyOutput String
                     Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
@@ -271,7 +285,7 @@ body{
 
                 }while(delta > precision || delta < (precision*-1));
 
-                //Outputting results to webpage
+                     //Output to Div
                      $('#myOutput').html(Result);
                      $('#ChangeX').html(ChangeOfxResult);
 
@@ -294,16 +308,13 @@ body{
             Result = "";
             ChangeOfxResult = "";
             counter = 0;
-             a = 0;
-             b = 0;
-             c = 0;
             xn = 0;
             precision = 0.01; 
-            func = 0;
-            deriv = 0;
             ans = 0;
             delta = 0;
             FadeInOnceOnly = 0;
+
+            //Fade Out Div's
             $("#GraphDiv").hide(900);
             $("#AnswersJumbotron").hide(2000);
             $("#myOutput").hide(1500);
@@ -314,19 +325,13 @@ body{
         //Insert Button
         $("#InsertButton").click(function(){
             
+            //Inserting this info
             $('#inputfunction').val('x^2-x-6')
             $('#inputXn').val('1');
             $('#inputPrecision').val('0.001');
 
         });//Insert Button end
            
-             
-      // go get algebraics library for derivatives
-      // send algebraics the user input
-      // get back derivative send to math.js
-      // calculations
-      
-    
   </script>
 </body>
 </html>
