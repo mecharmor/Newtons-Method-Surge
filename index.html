@@ -250,7 +250,16 @@ body{
                   console.log(ans);
 
                    // case for imaginary numbers
-                if (counter > 10000){
+                
+                    //Writing to MyOutput String
+                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
+          
+                    //Writing to ChangeX string
+                    ChangeOfxResult += "<span>&#916;</span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
+
+                    counter ++;
+                    
+                    if (counter > 10000){
 
                       Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
                       ChangeOfxResult = "";
@@ -259,13 +268,6 @@ body{
                       
                  }
 
-                    //Writing to MyOutput String
-                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
-          
-                    //Writing to ChangeX string
-                    ChangeOfxResult += "<span>&#916;</span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
-
-                    counter ++;
 
                 }while(delta > precision || delta < (precision*-1));
 
@@ -274,57 +276,10 @@ body{
                      $('#ChangeX').html(ChangeOfxResult);
 
 
-               /* //Set f(x)
-                func = a*xn*xn + b*xn + c
-                
-                //Set f'(x)
-                deriv = 2*a*xn + b;
-                
-                //Set Answer
-                ans = xn - func/deriv;
-                
-                // delta starts as the first guess equal to whatever value to user inputs.
-                // during the do loop it is set to = ans - xn, effectively making it the difference between the most recent
-                // answer and the last answer.
-                delta = xn;
-            
-
-                
-
-              do { //Beginning of Loop for amount of iterations
-                
-                    //Set f(x)
-                    func = a*xn*xn + b*xn + c
-                    //Set f'(x)
-                    deriv = 2*a*xn + b;
-                    //Set Answer
-                    ans = xn - func/deriv;
-                      
-                    //Set Delta
-                    delta = ans - xn;
-          
-                    // xn will be set to the new answer in preparation for another loop
-                    xn = ans;
-          
-                    //Adding counter to track number of loop iterations
-                    counter ++ ;
-          
-                    //Writing to MyOutput String
-                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
-          
-                    //Writing to ChangeX string
-                    ChangeOfxResult += "<span class = 'glyphicon glyphicon-triangle-top'></span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
-          
-                    
-                   
-              
-              } while (delta > precision || delta < (precision*-1));
-              
-                     
-*/
-        }else{ //validation if
-                 alert("Bad Input")
-               }
+               
+          }else{ //validation if
+                  alert("Bad Input")
+                }
           
        });
           
