@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html>
+        <head>
         <!-- Bootstrap Link -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">            
         <!--jQuery Link-->
@@ -14,13 +15,12 @@
   
         <script src="js/mathjs.js"></script>
 
-         <script src="js/algebrite.js"></script>
+        <script src="js/algebrite.bundle-for-browser.js"></script>
   
-         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
 
-
-         <head>
-            <link rel="stylesheet" type="text/css" href="css/Range.css">
+         
+         <link rel="stylesheet" type="text/css" href="css/Range.css">
          </head>
         <!--CSS Added-->
         <style type="text/css">
@@ -164,10 +164,8 @@ body{
         var xn;
        // precision is a user input of how precise they want the answer
         var precision; 
-                                                                                    
-        //doing the math
-        var func;  // function
-        var deriv;  // derivative
+                                                                                   
+       
         var ans;    // answer
         // delta is used to measure convergence
         var delta;
@@ -187,10 +185,10 @@ body{
 
       $("#myButton").click(function(){
 
-              var input = $('#inputfunction').val();
+              var initialfunction = $('#inputfunction').val();
 
           // Check if input is 0 or null
-          if(input != 0){ //checking for bad input
+          if(initialfunction != 0){ //checking for bad input
 
              //if statement prevents fade in more than once
                       if(FadeInOnceOnly == 0){
@@ -208,13 +206,13 @@ body{
                               $("#ChangeX").show(2000);
                       }
 
-                  var out = mathjs(input, 'x');
+                  var jsinitialfunction = mathjs(initialfunction, 'x');
             
                    //$("#OutputParagraph").html(out);  outputted string to webpage - old
                    board.removeObject(DrawingGraph);
                      
                    // Create a function graph for f(x) = sin(x)
-                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(out);}]);
+                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
 
                 //Populating variables
                 xn = $("#inputXn").val();
@@ -223,12 +221,58 @@ body{
                 precision = parseInt(precision);
              
 
-              Algebrite.run('x')
+              //var Algebrite = require('algebrite')
+              //'x+x' for testing
+              Algebrite.run('x + x');
 
-              var Dfunction = Algebrite.d(out)
-              console.log(Dfunction)
+              var Dfunction = Algebrite.run('d('+ initialfunction +')');
+              console.log(Dfunction);
 
-              $('#ChangeX').html(Dfunction)
+              $('#ChangeX').html(Dfunction);
+
+              var jsDfunction = mathjs(Dfunction, 'x');
+
+                //showing results
+                var Result = "";
+                var ChangeOfxResult = "";
+                
+                //counter
+                var counter = 0;
+            do{
+
+                  ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
+
+                  //Set Delta
+                  delta = ans - xn;
+                        
+                  //Set new xn
+                  xn = ans;
+                  console.log(ans);
+
+                   // case for imaginary numbers
+                if (counter > 10000){
+
+                      Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
+                      ChangeOfxResult = "";
+                      
+                      break;
+                      
+                 }
+
+                    //Writing to MyOutput String
+                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
+          
+                    //Writing to ChangeX string
+                    ChangeOfxResult += "<span>&#916;</span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
+
+                    counter ++;
+
+                }while(delta > precision || delta < (precision*-1));
+
+                //Outputting results to webpage
+                     $('#myOutput').html(Result);
+                     $('#ChangeX').html(ChangeOfxResult);
+
 
                /* //Set f(x)
                 func = a*xn*xn + b*xn + c
@@ -245,12 +289,7 @@ body{
                 delta = xn;
             
 
-                //showing results
-                var Result = "";
-                var ChangeOfxResult = "";
                 
-                //counter
-                var counter = 0;
 
               do { //Beginning of Loop for amount of iterations
                 
@@ -277,21 +316,11 @@ body{
                     ChangeOfxResult += "<span class = 'glyphicon glyphicon-triangle-top'></span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
           
                     
-                    // case for imaginary numbers
-                    if (counter > 10000)
-                    {
-                      Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
-                      ChangeOfxResult = "";
-                      
-                      break;
-                      
-                     }
+                   
               
               } while (delta > precision || delta < (precision*-1));
               
-                     //Outputting results to webpage
-                     $('#myOutput').html(Result);
-                     $('#ChangeX').html(ChangeOfxResult);
+                     
 */
         }else{ //validation if
                  alert("Bad Input")
@@ -330,7 +359,7 @@ body{
         //Insert Button
         $("#InsertButton").click(function(){
             
-            $('#inputfunction').val('3x^2')
+            $('#inputfunction').val('x^2-x-6')
             $('#inputXn').val('1');
             $('#inputPrecision').val('0.001');
 
