@@ -214,7 +214,6 @@ body{
                   for (var i = 0; i < counter; i++) { //Showing new results
 
                       Result += "x" + i + "= " + (XitterationsArray[i]).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
-                      console.log(Result);
 
                       ChangeOfxResult += "<span>&#916;</span>x" + i + "= " + (ChangeofXArray[i]).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
 
@@ -295,7 +294,7 @@ body{
                           
                     //Set new xn
                     xn = ans;
-                    console.log(ans);
+                    //console.log(ans);
                 
                     Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
                     XitterationsArray[counter] = ans;//filling array
@@ -308,15 +307,16 @@ body{
                     
                     if (counter > 10000){
 
-                      Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
-                      ChangeOfxResult = "";
+                        Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
+                        ChangeOfxResult = "";
+                        
+                        break;
                       
-                      break;
-                      
-                 }
-
+                     }
 
                 }while(delta > precision || delta < (precision*-1));
+
+                     var p = board.create('point', [ans,0], {style:6, name:'p'}); //Plot Crit
 
                      //Output to Div
                      $('#myOutput').html(Result);
@@ -362,6 +362,14 @@ body{
             $('#inputPrecision').val('0.001');
 
         });//Insert Button end
+
+        /*When Newton's Method Fails
+
+        #1)  If our first guess is a point at which there is a horizontal tangent line, then this line will never hit the x-axis, and Newton's Method will fail to locate a root. If there is ahorizontal tangent line then the drivative is zero.
+        #2) If our guesses oscillate back and forth then Newton's method will not work.
+        #3) If there are two roots, we must have a first guess near the root that we are interested in, otherwise Newton's method will find the wrong root
+        #4) If there are no roots, then Newton's method will fail to find it.
+        */
            
   </script>
 </body>
