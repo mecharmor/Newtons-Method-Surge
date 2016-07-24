@@ -159,6 +159,16 @@ body{
     
         var FadeInOnceOnly = 0;//Fade in once per click
 
+        var XitterationsArray = [];//storing information into array for resizing with slider
+
+        var ChangeofXArray = [];//same purpose as the XitterationsArray but for Change of x
+
+        var counter = 0;//counter  used by arrays and main calculations
+
+        var Result = "";//Used to output itterations of x
+        
+        var ChangeOfxResult = "";// used to output results for change of x
+
     //End Global Variables
        
        
@@ -195,7 +205,29 @@ body{
         $(document).on('input', '#MySlider', function() {
              SliderValue = $(this).val()
             $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
-        });
+            
+            if (counter > 0) {
+                
+                  Result = "";
+                  ChangeOfxResult = "";
+                  
+                  for (var i = 0; i < counter; i++) { //Showing new results
+
+                      Result += "x" + i + "= " + (XitterationsArray[i]).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
+                      console.log(Result);
+
+                      ChangeOfxResult += "<span>&#916;</span>x" + i + "= " + (ChangeofXArray[i]).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
+
+                };//End For
+
+              //Output to Div
+              $('#myOutput').html(Result);
+              $('#ChangeX').html(ChangeOfxResult);
+
+            };//End if
+
+            
+        });//End slider input
 
           
       $("#myButton").click(function(){
@@ -205,7 +237,9 @@ body{
           // Check if input is 0 or null
           if(initialfunction != 0){ //checking for bad input
 
-             //if statement prevents fade in more than once
+            counter = 0;//Reset
+
+                      //if statement prevents fade in more than once
                       if(FadeInOnceOnly == 0){
                               FadeInOnceOnly++;
                               //Fades in different pieces
@@ -249,27 +283,26 @@ body{
                   var jsDfunction = mathjs(Dfunction, 'x');
 
                   //showing results
-                  var Result = "";
-                  var ChangeOfxResult = "";
+                  Result = "";//Used to output itterations of x
+                  ChangeOfxResult = "";// used to output results for change of x
                   
-                  //counter
-                  var counter = 0;
             do{
-                  //Applying Newtons Method
-                  ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
+                    //Applying Newtons Method
+                    ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
 
-                  //Set Delta
-                  delta = ans - xn;
-                        
-                  //Set new xn
-                  xn = ans;
-                  console.log(ans);
+                    //Set Delta
+                    delta = ans - xn;
+                          
+                    //Set new xn
+                    xn = ans;
+                    console.log(ans);
                 
-                    //Writing to MyOutput String
-                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";
-          
-                    //Writing to ChangeX string
-                    ChangeOfxResult += "<span>&#916;</span>X" + counter + "= " + (delta).toFixed(SliderValue) + "<br>";
+                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
+                    XitterationsArray[counter] = ans;//filling array
+             
+                    
+                    ChangeOfxResult += "<span>&#916;</span>x" + counter + "= " + (delta).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
+                    ChangeofXArray[counter] = delta//filling array with each change of x
 
                     counter ++;
                     
@@ -288,11 +321,9 @@ body{
                      //Output to Div
                      $('#myOutput').html(Result);
                      $('#ChangeX').html(ChangeOfxResult);
-
-
-               
+     
           }else{ //validation if
-                  alert("Bad Input")
+                  alert("Bad Input");
                 }
           
        });
