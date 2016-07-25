@@ -105,8 +105,8 @@ body{
           </div>
           
           <div class="col-xs-6">
-            <input type="range" id="MySliderPrecision" min="1" max="15" step="1" value="1"></br>
-            <p id="MySliderPrecisionResult" align="center"><kbd>0.001 Precision</kbd></p>
+            <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
+            <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
           </div>
      </div>
       
@@ -151,7 +151,9 @@ body{
         
         var delta;// delta is used to measure convergence
            
-        var SliderValue = 1 //Slider #
+        var SliderValue = 1; //Slider #
+
+        var SliderValuePrecision;
 
         var board;
 
@@ -202,7 +204,7 @@ body{
        });//end of document.ready
         
         //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
-        $(document).on('input', '#MySlider', function() {
+        $(document).on('input', '#MySlider', function() {//Rounding slider
              SliderValue = $(this).val()
             $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
             
@@ -225,9 +227,42 @@ body{
 
             };//End if
 
-            
         });//End slider input
 
+        //When Slider Precision is moved
+        $(document).on('input', '#MySliderPrecision', function() {
+            //Making Sure Function Exhists
+            if ($('#inputfunction').val() != 0) {
+             
+                if($('#inputXn').val() != ''){
+                      //Filling Array
+                      var MyPrecisionArray = [1,10,100,1000,10000,100000,1000000];
+                      //Set
+                      SliderValuePrecision = $(this).val();
+                      //Calculate
+                      precision = (1/MyPrecisionArray[SliderValuePrecision]);
+                      
+                      //Output Change
+                      $('#MySliderPrecisionParagraph').html( "<kbd>" + precision + " Precision</kbd>" );
+
+                      //Output Slider Change to Input Box
+                      $('#inputPrecision').val(precision);
+
+                      //No Fade in without button click first
+                      if(FadeInOnceOnly == 1){
+                          //forces a click on the cheeck button
+                          $( "#myButton" ).trigger( "click" );
+                      };
+
+                }else{
+                    //Nothing Entered in Xn
+                    $('#MySliderPrecisionParagraph').html("Please Enter a Guess in Xn")
+                     }
+            }else{
+                  //No function entered
+                  $('#MySliderPrecisionParagraph').html("Please Enter a Function")
+                 } 
+        });//End My Precision Slider Input 
           
       $("#myButton").click(function(){
 
