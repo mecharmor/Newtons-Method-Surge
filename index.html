@@ -335,6 +335,8 @@ body{
                   //Taking derivative
                   var Dfunction = Algebrite.run('d('+ initialfunction +')');
 
+                    console.log(eval(Math.sin(90)));
+                    console.log(Dfunction);
                   //Converting f'(x) into Javascript Math
                   var jsDfunction = mathjs(Dfunction, 'x');
 
@@ -342,10 +344,20 @@ body{
                   Result = "";//Used to output itterations of x
                   ChangeOfxResult = "";// used to output results for change of x
                   
-             do{
-                    //Applying Newtons Method
-                    ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
-
+             do{  //Applying Newtons Method
+                    
+                    // Use Math to access trig functions
+                    var evalInitialFunction;
+                    var evalDFunction;
+                    with(Math){
+                    evalInitialFunction = eval(jsinitialfunction.replace(/x/g, xn));
+                    evalDFunction = eval(jsDfunction.replace(/x/g, xn));
+                    }
+                                       
+                    ans = xn - (evalInitialFunction/evalDFunction);
+                    
+                    
+                    
                     //Set Delta
                     delta = ans - xn;
                           
