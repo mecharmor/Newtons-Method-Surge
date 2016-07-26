@@ -66,28 +66,12 @@ body{
     <div class="col-xs-6">
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">f(x)</span>
-            <!--inputA-->
+            <!--inputFunction-->
             <input type="text" class="form-control" id="inputfunction" placeholder="Enter Function">
         </div>
     </div>
-         
-    <div class="col-xs-2">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Xn</span>
-            <!--inputXn-->
-            <input type="text" class="form-control" id="inputXn" placeholder="#">
-        </div>
-    </div>
-
-    <div class="col-xs-2">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">0.01</span>
-            <!--inputPrecision-->
-            <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
-        </div>
-    </div>
-   
-        <div class="col-xs-2">
+    
+     <div class="col-xs-2">
             <!--Enter Button-->
             <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
             <!--Clear Button-->
@@ -95,31 +79,38 @@ body{
             <!--Insert Button-->
             <button type="button" class="btn btn-info" id= "InsertButton" ><span class="glyphicon glyphicon-plus"></span></button>
         </div>
+         
+          
 
 </div><!--Row End-->
         <br>
-    <div class="row">
-          <div class="col-xs-6">
-            <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
-            <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
-          </div>
-          
-          <div class="col-xs-6">
-            <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
-            <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
-          </div>
-     </div>
+    <div class="col-xs-2" style="visibility: hidden;">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Xn</span>
+            <!--inputXn-->
+            <input type="text" class="form-control" id="inputXn" placeholder="#">
+        </div>
+    </div>
+
+    <div class="col-xs-2" style="visibility: hidden;">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">0.01</span>
+            <!--inputPrecision-->
+            <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
+        </div>
+    </div>
+    
       
 
-     </div><!--Close Jumbotron-->
+ </div><!--Close Jumbotron-->
 
      <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;">
         <div class="row"> 
             <div class="col-xs-4" style= "padding-left: 10%; padding-top: 7%; ">
             <ul>
-                <li><code>Applied Newtons Method</code></li>
-                <li><code>Graphed</code></li>
-                <li><code>Roots Listed Below</code></li>
+                <li><code>Graph of Function --></code></li>
+                <li><code>Enter a first guess for Xn above.</code></li>
+                <li><code>Roots will be listed below</code></li>
             </ul>
             </div>
 
@@ -130,6 +121,21 @@ body{
 
         </div>     
      </div>
+
+<!--Sliders-->
+
+ <div class="row">
+          <div class="col-xs-6">
+            <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
+            <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
+          </div>
+          
+          <div class="col-xs-6">
+            <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
+            <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
+          </div>
+   </div>
+     
 
     <!--Ans Div-->
     <div class="jumbotron" id="AnswersJumbotron" style="visibility: hidden; background-color: #e6e6e6;" align="left">
@@ -170,6 +176,8 @@ body{
         var Result = "";//Used to output itterations of x
         
         var ChangeOfxResult = "";// used to output results for change of x
+        
+        var jsinitialfunction; // holds the javascript math version of the initial function
 
     //End Global Variables
        
@@ -219,7 +227,7 @@ body{
 
                       ChangeOfxResult += "<span>&#916;</span>x" + i + "= " + (ChangeofXArray[i]).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
 
-                };//End For
+                  };//End For
 
               //Output to Div
               $('#myOutput').html(Result);
@@ -263,40 +271,54 @@ body{
                   $('#MySliderPrecisionParagraph').html("Please Enter a Function")
                  } 
         });//End My Precision Slider Input 
+        
+       
+       // if user hits enter instead of pressing the button 
+      $("#inputfunction").keyup(function(event){
+        if(event.keyCode == 13){
+        $("#myButton").click();
+        }
+      }); 
+      
+       
           
       $("#myButton").click(function(){
 
-              var initialfunction = $('#inputfunction').val();
+         var initialfunction = $('#inputfunction').val();
 
           // Check if input is 0 or null
-          if(initialfunction != 0){ //checking for bad input
+       if(initialfunction != 0){ //checking for bad input
 
             counter = 0;//Reset
-
-                      //if statement prevents fade in more than once
-                      if(FadeInOnceOnly == 0){
-                              FadeInOnceOnly++;
-                              //Fades in different pieces
-                              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-                              $('#GraphDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-                              $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-                              $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
-                              $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 3000);
-                    
-                              $("#GraphDiv").show(500);
-                              $("#AnswersJumbotron").show(1000);
-                              $("#myOutput").show(1500);
-                              $("#ChangeX").show(2000);
-                      }
-
-                  //Converting string into JS math
-                  var jsinitialfunction = mathjs(initialfunction, 'x');
             
-                   //$("#OutputParagraph").html(out);  outputted string to webpage - old
-                   board.removeObject(DrawingGraph);
+            //if statement prevents fade in more than once
+         if(FadeInOnceOnly == 0){
+              FadeInOnceOnly++;
+              //Fades in different pieces
+              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+              $('#GraphDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+              $('#inputXn').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+              $('#inputPrecision').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+                    
+              $("#GraphDiv").show(500);
+              $('#inputXn').show(1000);
+              $('#inputPrecision').show(1500);
+              
+              //Converting string into JS math
+              jsinitialfunction = mathjs(initialfunction, 'x');
+            
+              // clear graph
+              board.removeObject(DrawingGraph);
                      
-                   // Create a function graph for f(x) = sin(x)
-                   DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
+              // Create a function graph for f(x) = sin(x)
+              DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
+                   
+          }
+          else if (FadeInOnceOnly == 1){ // the second time the enter button is pressed, after the graph has faded in
+            
+                  FadeInOnceOnly++;       
+
+                  
 
                   //Populating Xn & Precision var
                   xn = $("#inputXn").val();
@@ -320,7 +342,7 @@ body{
                   Result = "";//Used to output itterations of x
                   ChangeOfxResult = "";// used to output results for change of x
                   
-            do{
+             do{
                     //Applying Newtons Method
                     ans = xn - (eval(jsinitialfunction.replace(/x/g, xn))/eval(jsDfunction.replace(/x/g, xn)));
 
@@ -351,13 +373,23 @@ body{
 
                 }while(delta > precision || delta < (precision*-1));
 
-                     var p = board.create('point', [ans,0], {style:6, name:'p'}); //Plot Crit
+               var p = board.create('point', [ans,0], {style:6, name:'p'}); //Plot Crit
 
-                     //Output to Div
-                     $('#myOutput').html(Result);
-                     $('#ChangeX').html(ChangeOfxResult);
-     
-          }else{ //validation if
+               //Fade in answers
+               $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+               $("#AnswersJumbotron").show(500);
+               $("#myOutput").show(1000);
+               $("#ChangeX").show(1500);
+
+               //Output to Div
+               $('#myOutput').html(Result);
+               $('#ChangeX').html(ChangeOfxResult);
+          
+          } // end of if for second button click
+          
+       }else{ //validation if
                   alert("Bad Input");
                 }
           
