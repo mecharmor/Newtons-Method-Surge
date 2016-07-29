@@ -118,23 +118,23 @@ body{
             <div class="col-xs-8">
                 <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray'></div>
             </div>
-
         </div>     
      </div>
 
-<!--Sliders-->
-
- <div class="row">
-          <div class="col-xs-6">
-            <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
-            <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
-          </div>
-          
-          <div class="col-xs-6">
-            <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
-            <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
-          </div>
-   </div>
+<div class = "jumbotron" id = "SlidersDiv" style="visibility: hidden;">
+    <!--Sliders-->
+     <div class="row">
+              <div class="col-xs-6">
+                  <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
+                  <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
+              </div>
+              
+              <div class="col-xs-6">
+                  <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
+                  <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
+              </div>
+      </div>
+</div>
      
 
     <!--Ans Div-->
@@ -298,11 +298,13 @@ body{
               // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
               $('#GraphDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
               $('#inputXn').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-              $('#inputPrecision').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+              $('#SlidersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+              $('#inputPrecision').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 2000);
                     
               $("#GraphDiv").show(500);
               $('#inputXn').show(1000);
-              $('#inputPrecision').show(1500);
+              $('#SlidersDiv').show(1500);
+              $('#inputPrecision').show(2000);
               
               //Converting string into JS math
               jsinitialfunction = mathjs(initialfunction, 'x');
@@ -391,6 +393,7 @@ body{
                $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
                $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
                $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+
                $("#AnswersJumbotron").show(500);
                $("#myOutput").show(1000);
                $("#ChangeX").show(1500);
@@ -426,6 +429,7 @@ body{
 
             //Fade Out Div's
             $("#GraphDiv").hide(900);
+            $('#SlidersDiv').hide(1200);
             $("#AnswersJumbotron").hide(2000);
             $("#myOutput").hide(1500);
             $("#ChangeX").hide(1000);
