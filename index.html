@@ -124,7 +124,7 @@ body{
 
 <!--Sliders-->
 
- <div class="row" id = "Sliders" style="visibility: hidden;">
+ <div class="row">
           <div class="col-xs-6">
             <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
             <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
@@ -335,6 +335,8 @@ body{
                   //Taking derivative
                   var Dfunction = Algebrite.run('d('+ initialfunction +')');
 
+                    console.log(eval(Math.sin(90)));
+                    console.log(Dfunction);
                   //Converting f'(x) into Javascript Math
                   var jsDfunction = mathjs(Dfunction, 'x');
 
@@ -388,12 +390,10 @@ body{
                //Fade in answers
                $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
                $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('#Sliders').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
                $("#AnswersJumbotron").show(500);
                $("#myOutput").show(1000);
-               $("#ChangeX").show(1000);
-               $('#Sliders').show(1500);
+               $("#ChangeX").show(1500);
 
                //Output to Div
                $('#myOutput').html(Result);
@@ -429,9 +429,6 @@ body{
             $("#AnswersJumbotron").hide(2000);
             $("#myOutput").hide(1500);
             $("#ChangeX").hide(1000);
-            $("#inputPrecision").hide(2500);
-            $("#inputXn").hide(2500);
-            $("#Sliders").hide(2500);
 
          });//Clear Button end
 
