@@ -10,6 +10,9 @@
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   
+        <!-- MathJax from CDN -->
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
         <!-- Optional theme -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
   
@@ -107,6 +110,8 @@ body{
      <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;">
         <div class="row"> 
             <div class="col-xs-4" style= "padding-left: 10%; padding-top: 7%; ">
+                <!--Nice MathJax render here-->
+                <span id="niceMathJaxRender">Typese ascii math in backTicks like this: `2x^2`</span>
             <ul>
                 <li><code>Graph of Function --></code></li>
                 <li><code>Enter a first guess for Xn above.</code></li>
@@ -285,6 +290,16 @@ body{
       $("#myButton").click(function(){
 
          var initialfunction = $('#inputfunction').val();
+        
+        // MathJax Work *****************************************************************
+        //when the buttons is clicked populate the niceMathJax
+        //Taking derivative when the button is clicked
+        var derivativefunction = Algebrite.run('d('+ initialfunction +')');
+        //surround the initial function in back ticks and then run mathJax on the div
+        $('#niceMathJaxRender').html("`f(x)="+initialfunction+"`");
+        $('#niceMathJaxRender').append("`f'(x)="+derivativefunction+"`");
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"niceMathJaxRender"]);
+        // end MathJax work ************************************************************
 
           // Check if input is 0 or null
        if(initialfunction != 0){ //checking for bad input
@@ -336,6 +351,8 @@ body{
 
                   //Taking derivative
                   var Dfunction = Algebrite.run('d('+ initialfunction +')');
+
+
 
                     console.log(eval(Math.sin(90)));
                     console.log(Dfunction);
