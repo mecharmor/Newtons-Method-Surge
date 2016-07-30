@@ -194,6 +194,14 @@
                             break;
                           
                         }
+                        //console.log(Result);
+                        if (answer == "NaN" || answer == "Infinity"){
+
+                           Result = "No Root was found";
+                           ChangeOfxResult = "";
+                           break;
+
+                        }
     
                     }while(delta > 0.001 || delta < -0.001);
                     
