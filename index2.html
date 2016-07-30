@@ -149,6 +149,8 @@
           
           $("#userGuess").on("keyup", function(e){
              if(e.keyCode === 13){
+              Result = "";
+              ChangeOfxResult = "";
             
               userGuess = $("#userGuess").val();
               userGuess = parseInt(userGuess);
