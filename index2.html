@@ -15,6 +15,11 @@
   <!-- JSX Graph -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
   <style>
+   #functioninput{
+     width:80%;
+     margin: 0 auto;
+   }
+   
    #functionoutput{ 
      margin-top: 10px;
      margin-bottom: 10px;
@@ -48,9 +53,9 @@
   
 <div class="container">
   <h1 class="text-center">Newton's Method</h1>
-  <div class="input-group">
+  <div class="input-group" id="functioninput">
     <span class="input-group-addon" id="basic-addon1">f(x) = </span>
-    <input type="text" class="form-control" id="inputfunction" placeholder="3x^2" aria-describedby="basic-addon1" autofocus>
+    <input type="text" class="form-control" id="inputfunction" placeholder="Enter function" aria-describedby="basic-addon1" autofocus>
   </div>
   <div id="functionoutput" class="text-center"></div>
   <div id="derivativeoutput" class="text-center"></div>
@@ -88,18 +93,7 @@
     
     $("#inputfunction").on("keyup", function(e){
       
-      var initialfunction = $(this).val();
-      
-      $("#functionoutput").html("`f(x) = " + initialfunction + "`");
-      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
-      
-      if(e.keyCode === 13){
-        var derivativefunction = Algebrite.run('d('+ initialfunction +')');
-        
-        $("#derivativeoutput").html("`f'(x) = " + derivativefunction + "`");
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"derivativeoutput"]);
-        
-        //Graph
+      //Graph
          board = JXG.JSXGraph.initBoard('myGraph',
                      {
                          boundingbox:[-7,2,7,-2],
@@ -123,6 +117,22 @@
                          
                      });
            
+       board.removeObject(myGraph);
+      
+      $("#derivativeoutput").html("Hit Enter");
+     
+      var initialfunction = $(this).val();
+      
+      $("#functionoutput").html("`f(x) = " + initialfunction + "`");
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
+      
+      if(e.keyCode === 13){
+        var derivativefunction = Algebrite.run('d('+ initialfunction +')');
+        
+        $("#derivativeoutput").html("`f'(x) = " + derivativefunction + "`");
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"derivativeoutput"]);
+        
+        
           
           // now getting the function and derivative into jsmath
           jsinitialfunction = mathjs(initialfunction, 'x');
