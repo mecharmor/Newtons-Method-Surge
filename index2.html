@@ -80,7 +80,7 @@
   
   var userGuess;
   var Result;
-  var counter = 1;
+  var counter;
   var answer;
   var delta;
   var Result = ""; //Used to output iterations of x
@@ -151,6 +151,7 @@
              if(e.keyCode === 13){
               Result = "";
               ChangeOfxResult = "";
+              counter = 1;
             
               userGuess = $("#userGuess").val();
               userGuess = parseFloat(userGuess).toFixed(8);
