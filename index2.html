@@ -19,6 +19,11 @@
      width:80%;
      margin: 0 auto;
    }
+
+   .jumbotron{
+
+    background-color: #FFFFFF;
+   }
    
    #functionoutput{ 
      margin-top: 10px;
@@ -59,9 +64,11 @@
   </div>
   <div id="functionoutput" class="text-center"></div>
   <div id="derivativeoutput" class="text-center"></div>
-  <!--Graph Div-->
-  <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray;'></div>
   
+  <div class="jumbotron" style="width:80%; margin: 0 auto; height:50vh">
+  <!--Graph Div-->
+  </div>
+
   <div class="input-group" id="guessInputGroup">
     <span class="input-group-addon" id="basic-addon1">User Guess = </span>
     <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1">
@@ -97,8 +104,8 @@
          board = JXG.JSXGraph.initBoard('myGraph',
                      {
                          boundingbox:[-7,2,7,-2],
-                         axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
-                         grid: { strokeWidth: 0.75 },
+                         axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black'}, //if , strokeWidth is added then the axis will change thickness
+                         grid: { strokeWidth: 0.75 },//Changes line thickness of grid
                          showCopyright: false,
                          showNavigation: false,
                          keepaspectratio: false, //square graph coming in
@@ -118,10 +125,12 @@
                      });
            
        board.removeObject(myGraph);
+
+       var initialfunction;
       
       $("#derivativeoutput").html("Hit Enter");
      
-      var initialfunction = $(this).val();
+       initialfunction = $(this).val();
       
       $("#functionoutput").html("`f(x) = " + initialfunction + "`");
       MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
@@ -141,7 +150,7 @@
           // fade in graph and next input box           
           $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
           $("#myGraph").show(500);
-          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
+          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeWidth:3});//strokeWidth is where the graph changes size
           
           $('#guessInputGroup').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
           $("#guessInputGroup").show(1000);
@@ -207,7 +216,7 @@
                     }while(delta > 0.001 || delta < -0.001);
                     
                   //Plot Crit
-                  var p = board.create('point', [answer,0], {style:6, name:'p'}); 
+                  var p = board.create('point', [answer,0], {style:6, name:initialfunction}); 
               
                   //Fade in answers
                   $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
