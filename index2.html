@@ -18,6 +18,7 @@
    #functioninput{
      width:80%;
      margin: 0 auto;
+
    }
 
    .jumbotron{
@@ -50,6 +51,15 @@
      margin-bottom: 40px;
      visibility: hidden;
    }
+
+   .MyBox{
+
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+    background-color: #e6ffff;
+    border-bottom: 6px solid #00b3b3;
+   }
     
   </style>
 
@@ -75,11 +85,8 @@
     <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1">
   </div> 
   
-  <div id="AnswersDiv" align="left">
-      <div class="row">
-          <div id = "col_Left" class="col-xs-6"><p id="myOutput">Answer</p></div>
-          <div id = "col_Right" class="col-xs-6"><p id="changeX">Change of X</p></div>
-      </div>
+  <div id="AnswersDiv">
+      <div class="MyBox"><p id="myOutput">Hmmmm.... Javascript didn't output answer</p></div>
   </div>
     
 </div>
@@ -222,14 +229,13 @@
                   //Fade in answers
                   $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
                   $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-                  $('#changeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
+                  
                   $("#AnswersDiv").show(500);
                   $("#myOutput").show(1000);
-                  $("#changeX").show(1500);
+                  
               
                   $('#myOutput').html(Result);
-                  $('#changeX').html(ChangeOfxResult);
-              
+                 
                }
               });
 
