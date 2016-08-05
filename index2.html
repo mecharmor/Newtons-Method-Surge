@@ -18,9 +18,12 @@
    #functioninput{
      width:80%;
      margin: 0 auto;
-
    }
-
+   h1{
+    color: #ccccb3;
+    text-shadow: 2px 2px 4px #000000;
+   }
+}
    .jumbotron{
 
     background-color: #FFFFFF;
@@ -41,9 +44,8 @@
    }
    
    #guessInputGroup{
-     width:20%;
-     margin: 0 auto;
      visibility: hidden;
+     margin-top: 10px;
    }
    
    #AnswersDiv{
@@ -52,13 +54,39 @@
      visibility: hidden;
    }
 
-   .MyBox{
+   .MyBoxLeft{
 
     text-align:center;
     margin: auto; 
     width: 80%;
-    background-color: #e6ffff;
-    border-bottom: 6px solid #00b3b3;
+    background-color: #ffffe6;
+    border-right: 6px solid #e6e6e6;
+
+   }
+
+   .MyBoxLeft2{
+
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+    background-color: #ffffe6;
+    border-left: 6px solid #d9d9d9;
+    visibility: hidden;
+
+   }
+   .MyBoxBottom{
+
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+    background-color: #ffffe6;
+    border-bottom: 6px solid #cccccc;
+   }
+   #GraphAdjustments{
+    position: fixed;
+    left: 0;
+    visibility: hidden;
+    top: 35%;
    }
     
   </style>
@@ -72,21 +100,34 @@
     <span class="input-group-addon" id="basic-addon1">f(x) = </span>
     <input type="text" class="form-control" id="inputfunction" placeholder="Enter function" aria-describedby="basic-addon1" autofocus>
   </div>
-  <div id="functionoutput" class="text-center"></div>
-  <div id="derivativeoutput" class="text-center"></div>
-  
-  <div class="jumbotron" style="width:80%; margin: 0 auto; height:50vh">
-  <!--Graph Div-->
-    <div id="myGraph" class="jxgbox center-block" style='width:80%; height:100%; border: 1px solid lightgray;'></div>
+  <div class="MyBoxLeft" style="width:80%; margin: 0 auto;">
+    <div id="functionoutput" class="text-center"></div>
+    <div id="derivativeoutput" class="text-center"></div>
   </div>
 
-  <div class="input-group" id="guessInputGroup">
+  <div id="GraphAdjustments">
+      <!--Graph Adjustments-->
+      <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
+        <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
+        <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
+        <button type="button" class="btn btn-danger" id="GraphColor"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+  </div>
+
+  <div class="MyBoxLeft2" style="width:80%; margin: 0 auto; height:50vh">
+      <!--Graph Div-->
+      <div id="myGraph" class="jxgbox center-block" style='width:100%; height:100%; border: 1px solid lightgray; box-shadow: 2px 2px 5px grey;'></div>
+  </div>
+
+  <div class="MyBoxLeft" id="guessInputGroup">
+  <div class="input-group" style="width:40%; margin: 0 auto;">
     <span class="input-group-addon" id="basic-addon1">User Guess = </span>
-    <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1">
-  </div> 
-  
+    <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1"> 
+  </div>
+  </div>
   <div id="AnswersDiv">
-      <div class="MyBox"><p id="myOutput">Hmmmm.... Javascript didn't output answer</p></div>
+      <div class="MyBoxBottom"><p id="myOutput">Hmmmm.... Javascript didn't output answer</p></div>
   </div>
     
 </div>
@@ -102,9 +143,45 @@
   var ChangeOfxResult = ""; // used to output results for change of x
   var XiterationsArray = ["Results"]; //storing information into array for resizing with slider
   var ChangeofXArray = ["Change of X"]; //same purpose as the XitterationsArray but for Change of x
+  var jsinitialfunction;
+  var GraphThickness = 3;
+  var ThisStrokeColor = "#0000ff";
 
   
   $(document).ready(function(){
+
+    //Graph Thicker Button
+    $("#GraphThicker").click(function(){
+        if (GraphThickness <= 15) { //Set Max Thickness
+            GraphThickness +=1 //Changing Graph Thickness
+            board.removeObject(DrawingGraph);
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor, strokeWidth:GraphThickness}); 
+        }
+    });
+    //Graph Thinner Button
+    $("#GraphThinner").click(function(){
+        if (GraphThickness >= 2) { //Set Min thickness
+            GraphThickness -=1 //Changing Graph Thickness
+            board.removeObject(DrawingGraph);
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+        }
+    });
+     //Graph Color Button
+     var ColorSelector = 0;
+    $("#GraphColor").click(function(){
+        //Colors Array
+        var MyArray = ["#00ff00", "#ffff00", "#ff0000","#b300b3","#ff5500","#0000ff"];
+        //Reset if 6
+        if (ColorSelector == 6){ColorSelector = 0;}
+        //Set Color of Array in position
+        ThisStrokeColor = MyArray[ColorSelector]
+        //Remove
+        board.removeObject(DrawingGraph);
+        //Add new
+        DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+        //Next Color
+        ColorSelector +=1
+    });
     
     $("#inputfunction").on("keyup", function(e){
       
@@ -144,25 +221,30 @@
       MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
       
       if(e.keyCode === 13){
+
         var derivativefunction = Algebrite.run('d('+ initialfunction +')');
         
         $("#derivativeoutput").html("`f'(x) = " + derivativefunction + "`");
         MathJax.Hub.Queue(["Typeset",MathJax.Hub,"derivativeoutput"]);
         
-        
-          
           // now getting the function and derivative into jsmath
           jsinitialfunction = mathjs(initialfunction, 'x');
           jsderivfunction = mathjs(derivativefunction, 'x');
             
           // fade in graph and next input box           
-          $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-          $("#myGraph").show(500);
-          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeWidth:3});//strokeWidth is where the graph changes size
+          $('.MyBoxLeft2').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+          $(".MyBoxLeft2").show(500);
+          //+- on left side to adjust graph thickness
+          $('#GraphAdjustments').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+          $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 900);
+          $("#myGraph").show(900);
+          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});//strokeWidth is where the graph changes size
           
           $('#guessInputGroup').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
           $("#guessInputGroup").show(1000);
-          
+
+          //Focus on next input box
+          $("#userGuess").focus()
           
           $("#userGuess").on("keyup", function(e){
              if(e.keyCode === 13){
@@ -233,7 +315,7 @@
                   $("#AnswersDiv").show(500);
                   $("#myOutput").show(1000);
                   
-              
+                  //Output Answer
                   $('#myOutput').html(Result);
                  
                }
