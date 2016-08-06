@@ -179,7 +179,7 @@
                          zoom: {
                             factorX: 1.25,  // horizontal zoom factor (multiplied to JXG.Board#zoomX)
                             factorY: 1.25,  // vertical zoom factor (multiplied to JXG.Board#zoomY)
-                            wheel: true,   // allow zooming by mouse wheel
+                            wheel: true,  // allow zooming by mouse wheel
                             needshift: false, // mouse wheel zooming needs pressing of the shift key
                              eps: 0.1        // minimal values of JXG.Board#zoomX and JXG.Board#zoomY
                          },
@@ -290,7 +290,8 @@
                     }while(delta > 0.001 || delta < -0.001);
                     
                   //Plot Crit
-                  var p = board.create('point', [answer,0], {style:6, name:initialfunction}); 
+                  answer = parseFloat(answer).toFixed(2);
+                  var p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"}); 
               
                   //Fade in answers
                   $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
