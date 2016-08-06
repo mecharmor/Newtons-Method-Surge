@@ -248,9 +248,11 @@
                         evalInitialFunction = eval(jsinitialfunction.replace(/x/g, userGuess));
                         evalDerivFunction = eval(jsderivfunction.replace(/x/g, userGuess));
                         }
-                                          
+                        
+                        // Here it comes: the big moment                  
                         answer = userGuess - (evalInitialFunction/evalDerivFunction);
-                        answer = parseFloat(answer).toFixed(10);
+                        // Ta-da! There's the line that actually does the formula
+                        
                         
                         //Set Delta
                         delta = answer - userGuess;
@@ -258,7 +260,7 @@
                         //Set new userGuess
                         userGuess = answer;
                         
-                        
+                        answer = parseFloat(answer).toFixed(10);
                         Result += "x" + counter + " = " + answer + "<br>";//Writing to MyOutput String
                         XiterationsArray[counter] = answer;//filling array
                 
