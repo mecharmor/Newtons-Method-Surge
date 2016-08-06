@@ -250,7 +250,7 @@
                         }
                                           
                         answer = userGuess - (evalInitialFunction/evalDerivFunction);
-                        
+                        answer = parseFloat(answer).toFixed(10);
                         
                         //Set Delta
                         delta = answer - userGuess;
@@ -258,7 +258,7 @@
                         //Set new userGuess
                         userGuess = answer;
                         
-                    
+                        
                         Result += "x" + counter + " = " + answer + "<br>";//Writing to MyOutput String
                         XiterationsArray[counter] = answer;//filling array
                 
