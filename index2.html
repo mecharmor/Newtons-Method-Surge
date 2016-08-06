@@ -168,6 +168,7 @@
     $("#GraphClear").click(function(){
 
             board.removeObject(DrawingGraph);
+            //board.removeObject(p);
             $('#inputfunction').val("");
             $('#userGuess').val('');
             $('#myOutput').html('');
@@ -235,12 +236,6 @@
 
           //Focus on next input box
           $("#userGuess").focus()
-
-          $("MyBoxLeft2").resize(function() {
-            console.log("Board Resized")
-            board.update()            
-
-          });
           
           $("#userGuess").on("keyup", function(e){
              if(e.keyCode === 13){
