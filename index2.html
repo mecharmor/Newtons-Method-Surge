@@ -69,8 +69,7 @@
     left: 0;
     visibility: hidden;
     top: 35%;
-   }
-    
+   } 
   </style>
 
 </head>
@@ -93,7 +92,7 @@
         <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
         <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
         <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
-        <button type="button" class="btn btn-danger" id="GraphColor"><span class="glyphicon glyphicon-remove"></span></button>
+        <button type="button" class="btn btn-danger" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
   </div>
 
@@ -164,6 +163,15 @@
         //Next Color
         ColorSelector +=1
     });
+
+    //Graph Clear Button
+    $("#GraphClear").click(function(){
+
+            board.removeObject(DrawingGraph);
+            $('#inputfunction').val("");
+            $('#userGuess').val('');
+            $('#myOutput').html('');
+    });
     
     $("#inputfunction").on("keyup", function(e){
       
@@ -174,7 +182,7 @@
                          axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black'}, //if , strokeWidth is added then the axis will change thickness
                          grid: { strokeWidth: 0.75 },//Changes line thickness of grid
                          showCopyright: false,
-                         showNavigation: false,
+                         showNavigation: true,
                          keepaspectratio: false, //square graph coming in
                          zoom: {
                             factorX: 1.25,  // horizontal zoom factor (multiplied to JXG.Board#zoomX)
@@ -227,6 +235,12 @@
 
           //Focus on next input box
           $("#userGuess").focus()
+
+          $("MyBoxLeft2").resize(function() {
+            console.log("Board Resized")
+            board.update()            
+
+          });
           
           $("#userGuess").on("keyup", function(e){
              if(e.keyCode === 13){
