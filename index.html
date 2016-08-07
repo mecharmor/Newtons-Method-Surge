@@ -1,207 +1,194 @@
 <!DOCTYPE html>
-
-<html>
-        <head>
-        <!-- Bootstrap Link -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">            
-        <!--jQuery Link-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-        
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  
-         <!-- MathJax from CDN -->
- +       <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-        
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-  
-        <script src="js/mathjs.js"></script>
-
-        <script src="js/algebrite.bundle-for-browser.js"></script>
-  
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
-
-         
-         <link rel="stylesheet" type="text/css" href="css/Range.css">
-         </head>
-        <!--CSS Added-->
-        <style type="text/css">
-
-body{
-  background-image: url("pictures/background.jpg");
-}
-
-.jumbotron{
-    padding-top: 50px;
-    padding-right: 20px;
-    padding-bottom: 50px;
-    padding-left: 20px;
-    border: 2px solid #737373;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 10px 10px 5px grey;
-}
-
-  h1{
-  color: white;
-    text-shadow: 1px 1px 2px #e6e6e6, 0 0 25px gray, 0 0 5px gray;
-}
-
-</style>
-
+<html lang="en">
 <head>
-    
-    <title>Root Calculator</title>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> 
-    
-</head>
-
-<body>
-  <h1 align="center">Newton's Method <small>Coming Soon!</small></h1>
-
-<div class="jumbotron" style= "background-color: #e6e6e6;">
-  
-  <div class = "row">
-  <!--Same Inputs but with new styling-->
-    <div class="col-xs-6">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">f(x)</span>
-            <!--inputFunction-->
-            <input type="text" class="form-control" id="inputfunction" placeholder="Enter Function">
-        </div>
-    </div>
-    
-     <div class="col-xs-2">
-            <!--Enter Button-->
-            <button type="button" class="btn btn-success" id= "myButton" ><span class="glyphicon glyphicon-ok"></span></button>
-            <!--Clear Button-->
-            <button type="button" class="btn btn-danger" id= "ClearButton" ><span class="glyphicon glyphicon-remove"></span></button>
-            <!--Insert Button-->
-            <button type="button" class="btn btn-info" id= "InsertButton" ><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-         
-          
-
-</div><!--Row End-->
-        <br>
-    <div class="col-xs-2" style="visibility: hidden;">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Xn</span>
-            <!--inputXn-->
-            <input type="text" class="form-control" id="inputXn" placeholder="#">
-        </div>
-    </div>
-
-    <div class="col-xs-2" style="visibility: hidden;">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">0.01</span>
-            <!--inputPrecision-->
-            <input type="text" class="form-control" id="inputPrecision" placeholder="precision">
-        </div>
-    </div>
-    
-      
-
- </div><!--Close Jumbotron-->
-
-     <div class = "jumbotron" id = "GraphDiv" style="visibility: hidden;">
-        <div class="row"> 
-            <div class="col-xs-4" style= "padding-left: 10%; padding-top: 7%; ">
-             <!--Nice MathJax render here-->
- +                <span id="niceMathJaxRender">Typese ascii math in backTicks like this: `2x^2`</span>
-            <ul>
-                <li><code>Graph of Function --></code></li>
-                <li><code>Enter a first guess for Xn above.</code></li>
-                <li><code>Roots will be listed below</code></li>
-            </ul>
-            </div>
-
-            <!--Graph Div-->
-            <div class="col-xs-8">
-                <div id="myGraph" class="jxgbox center-block" style='width:500px; height:300px; border: 1px solid lightgray'></div>
-            </div>
-
-        </div>     
-     </div>
-
-<!--Sliders-->
-
- <div class="row">
-          <div class="col-xs-6">
-            <input type="range" id="MySlider" min="1" max="15" step="1" value="1"></br>
-            <p id="MySliderResult" align="center"><kbd>1 Decimal Place(s)</kbd></p>
-          </div>
-          
-          <div class="col-xs-6">
-            <input type="range" id="MySliderPrecision" min="0" max="6" step="1" value="0"></br>
-            <p id="MySliderPrecisionParagraph" align="center"><kbd>1 Precision</kbd></p>
-          </div>
-   </div>
-     
-
-    <!--Ans Div-->
-    <div class="jumbotron" id="AnswersJumbotron" style="visibility: hidden; background-color: #e6e6e6;" align="left">
-      <div class="row">
-          <div id = "col_Left" class="col-xs-6" style="visibility: hidden;"><p id="myOutput">Answer</p></div>
-          <div id = "col_Right" class="col-xs-6" style="visibility: hidden;"><p id="ChangeX">Change of X</p></div>
-      </div>
-    </div>
+  <title>Newton's Method</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="js/mathjs.js"></script>
+  <!-- MathJax from CDN -->
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <!-- Algebrite -->
+  <script src="js/algebrite.bundle-for-browser.js"></script>
+  <!-- JSX Graph -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
+  <style>
+   #functioninput{
+     width:80%;
+     margin: 0 auto;
+   }
    
-  <script>
+   #functionoutput{ 
+     margin-top: 10px;
+     margin-bottom: 10px;
+   }
+   
+   #derivativeoutput{
+     margin-bottom: 10px;
+   }
+   
+   #myGraph{
+     margin-bottom: 15px;
+     visibility: hidden;
+   }
+   
+   #guessInputGroup{
+     visibility: hidden;
+     margin-top: 10px;
+   }
+   
+   #AnswersDiv{
+     margin-top: 25px;
+     margin-bottom: 40px;
+     visibility: hidden;
+   }
+   
+   .MyBoxLeft{
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+   }
 
-    //Global Variables
+   .MyBoxLeft2{
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+    visibility: hidden;
+   }
+   
+   .MyBoxBottom{
+    text-align:center;
+    margin: auto; 
+    width: 80%;
+   }
+   
+   #GraphAdjustments{
+    position: fixed;
+    left: 0;
+    visibility: hidden;
+    top: 35%;
+   } 
+  </style>
 
-        var xn; // xn is first guess
-       
-        var precision; // precision is a user input of how precise they want the answer
-                                                                                   
-        var ans;    // answer
-        
-        var delta;// delta is used to measure convergence
-           
-        var SliderValue = 1; //Slider #
+</head>
+<body>
+  
+<div class="container">
+  <h1 class="text-center">Newton's Method</h1>
+  <div class="input-group" id="functioninput">
+    <span class="input-group-addon" id="basic-addon1">f(x) = </span>
+    <input type="text" class="form-control" id="inputfunction" placeholder="Enter function" aria-describedby="basic-addon1" autofocus>
+  </div>
+  <div class="MyBoxLeft" style="width:80%; margin: 0 auto;">
+    <div id="functionoutput" class="text-center"></div>
+    <div id="derivativeoutput" class="text-center"></div>
+  </div>
 
-        var SliderValuePrecision;
+  <div id="GraphAdjustments">
+      <!--Graph Adjustments-->
+      <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
+        <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
+        <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
+        <button type="button" class="btn btn-danger" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
+      </div>
+  </div>
 
-        var board;
+  <div class="MyBoxLeft2" style="width:80%; margin: 0 auto; height:50vh">
+      <!--Graph Div-->
+      <div id="myGraph" class="jxgbox center-block" style='width:100%; height:100%; border: 1px solid lightgray; box-shadow: 2px 2px 5px grey;'></div>
+  </div>
 
-        var DrawingGraph; //Draw Object
+  <div class="MyBoxLeft" id="guessInputGroup">
+  <div class="input-group" style="width:80%; margin: 0 auto;">
+    <span class="input-group-addon" id="basic-addon1">User Guess = </span>
+    <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1"> 
+  </div>
+  </div>
+  <div id="AnswersDiv">
+      <div class="MyBoxBottom"><p id="myOutput">Hmmmm.... Javascript didn't output answer</p></div>
+  </div>
     
-        var FadeInOnceOnly = 0;//Fade in once per click
+</div>
 
-        var XitterationsArray = [];//storing information into array for resizing with slider
+<script>
+  
+  var userGuess;
+  var Result;
+  var counter;
+  var answer;
+  var delta;
+  var Result = ""; //Used to output iterations of x
+  var ChangeOfxResult = ""; // used to output results for change of x
+  var XiterationsArray = ["Results"]; //storing information into array for resizing with slider
+  var ChangeofXArray = ["Change of X"]; //same purpose as the XitterationsArray but for Change of x
+  var jsinitialfunction;
+  var GraphThickness = 3;
+  var ThisStrokeColor = "#0000ff";
 
-        var ChangeofXArray = [];//same purpose as the XitterationsArray but for Change of x
+  
+  $(document).ready(function(){
 
-        var counter = 0;//counter  used by arrays and main calculations
+    //Graph Thicker Button
+    $("#GraphThicker").click(function(){
+        if (GraphThickness <= 15) { //Set Max Thickness
+            GraphThickness +=1 //Changing Graph Thickness
+            board.removeObject(DrawingGraph);
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor, strokeWidth:GraphThickness}); 
+        }
+    });
+    //Graph Thinner Button
+    $("#GraphThinner").click(function(){
+        if (GraphThickness >= 2) { //Set Min thickness
+            GraphThickness -=1 //Changing Graph Thickness
+            board.removeObject(DrawingGraph);
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+        }
+    });
+     //Graph Color Button
+     var ColorSelector = 0;
+    $("#GraphColor").click(function(){
+        //Colors Array
+        var MyArray = ["#00ff00", "#ffff00", "#ff0000","#b300b3","#ff5500","#0000ff"];
+        //Reset if 6
+        if (ColorSelector == 6){ColorSelector = 0;}
+        //Set Color of Array in position
+        ThisStrokeColor = MyArray[ColorSelector]
+        //Remove
+        board.removeObject(DrawingGraph);
+        //Add new
+        DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+        //Next Color
+        ColorSelector +=1
+    });
 
-        var Result = "";//Used to output itterations of x
-        
-        var ChangeOfxResult = "";// used to output results for change of x
-        
-        var jsinitialfunction; // holds the javascript math version of the initial function
+    //Graph Clear Button
+    $("#GraphClear").click(function(){
 
-    //End Global Variables
-       
-       
-      $( document ).ready(function() {
-
-            //Grapher Stuff
-            board = JXG.JSXGraph.initBoard('myGraph',
+            board.removeObject(DrawingGraph);
+            //board.removeObject(p);
+            $('#inputfunction').val("");
+            $('#userGuess').val('');
+            $('#myOutput').html('');
+    });
+    
+    $("#inputfunction").on("keyup", function(e){
+      
+      //Graph
+         board = JXG.JSXGraph.initBoard('myGraph',
                      {
                          boundingbox:[-7,2,7,-2],
-                         axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black' },
-                         grid: { strokeWidth: 0.75 },
+                         axis: { ticks: { drawLabels: true }, firstArrow: true, strokeColor: 'black'}, //if , strokeWidth is added then the axis will change thickness
+                         grid: { strokeWidth: 0.75 },//Changes line thickness of grid
                          showCopyright: false,
-                         showNavigation: false,
+                         showNavigation: true,
                          keepaspectratio: false, //square graph coming in
                          zoom: {
                             factorX: 1.25,  // horizontal zoom factor (multiplied to JXG.Board#zoomX)
                             factorY: 1.25,  // vertical zoom factor (multiplied to JXG.Board#zoomY)
-                            wheel: true,   // allow zooming by mouse wheel
+                            wheel: true,  // allow zooming by mouse wheel
                             needshift: false, // mouse wheel zooming needs pressing of the shift key
                              eps: 0.1        // minimal values of JXG.Board#zoomX and JXG.Board#zoomY
                          },
@@ -212,261 +199,155 @@ body{
                          }
                          
                      });
-                     
-                   
-       });//end of document.ready
-        
-        //Slider Update for HTML and SliderValue variable  --- populates when slider is moved
-        $(document).on('input', '#MySlider', function() {//Rounding slider
-             SliderValue = $(this).val()
-            $('#MySliderResult').html( "<kbd>" + $(this).val() + " Decimal Place(s)</kbd>" );
-            
-            if (counter > 0) {
-                
-                  Result = "";
-                  ChangeOfxResult = "";
-                  
-                  for (var i = 0; i < counter; i++) { //Showing new results
+           
+       board.removeObject(myGraph);
 
-                      Result += "x" + i + "= " + (XitterationsArray[i]).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
-
-                      ChangeOfxResult += "<span>&#916;</span>x" + i + "= " + (ChangeofXArray[i]).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
-
-                  };//End For
-
-              //Output to Div
-              $('#myOutput').html(Result);
-              $('#ChangeX').html(ChangeOfxResult);
-
-            };//End if
-
-        });//End slider input
-
-        //When Slider Precision is moved
-        $(document).on('input', '#MySliderPrecision', function() {
-            //Making Sure Function Exhists
-            if ($('#inputfunction').val() != 0) {
-             
-                if($('#inputXn').val() != ''){
-                      //Filling Array
-                      var MyPrecisionArray = [1,10,100,1000,10000,100000,1000000];
-                      //Set
-                      SliderValuePrecision = $(this).val();
-                      //Calculate
-                      precision = (1/MyPrecisionArray[SliderValuePrecision]);
-                      
-                      //Output Change
-                      $('#MySliderPrecisionParagraph').html( "<kbd>" + precision + " Precision</kbd>" );
-
-                      //Output Slider Change to Input Box
-                      $('#inputPrecision').val(precision);
-
-                      //No Fade in without button click first
-                      if(FadeInOnceOnly == 1){
-                          //forces a click on the cheeck button
-                          $( "#myButton" ).trigger( "click" );
-                      };
-
-                }else{
-                    //Nothing Entered in Xn
-                    $('#MySliderPrecisionParagraph').html("Please Enter a Guess in Xn")
-                     }
-            }else{
-                  //No function entered
-                  $('#MySliderPrecisionParagraph').html("Please Enter a Function")
-                 } 
-        });//End My Precision Slider Input 
-        
-       
-       // if user hits enter instead of pressing the button 
-      $("#inputfunction").keyup(function(event){
-        if(event.keyCode == 13){
-        $("#myButton").click();
-        }
-      }); 
+       var initialfunction;
       
-       
-          
-      $("#myButton").click(function(){
+      $("#derivativeoutput").html("Hit Enter");
+     
+       initialfunction = $(this).val();
+      
+      $("#functionoutput").html("`f(x) = " + initialfunction + "`");
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
+      
+      if(e.keyCode === 13){
 
-         var initialfunction = $('#inputfunction').val();
-         
-          // MathJax Work *****************************************************************
-         //when the buttons is clicked populate the niceMathJax
-         //Taking derivative when the button is clicked
-         var derivativefunction = Algebrite.run('d('+ initialfunction +')');
-         //surround the initial function in back ticks and then run mathJax on the div
-         $('#niceMathJaxRender').html("`f(x)="+initialfunction+"`");
-        $('#niceMathJaxRender').append("`f'(x)="+derivativefunction+"`");
-         MathJax.Hub.Queue(["Typeset",MathJax.Hub,"niceMathJaxRender"]);
-         // end MathJax work ************************************************************
-
-          // Check if input is 0 or null
-       if(initialfunction != 0){ //checking for bad input
-
-            counter = 0;//Reset
+        var derivativefunction = Algebrite.run('d('+ initialfunction +')');
+        
+        $("#derivativeoutput").html("`f'(x) = " + derivativefunction + "`");
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,"derivativeoutput"]);
+        
+          // now getting the function and derivative into jsmath
+          jsinitialfunction = mathjs(initialfunction, 'x');
+          jsderivfunction = mathjs(derivativefunction, 'x');
             
-            //if statement prevents fade in more than once
-         if(FadeInOnceOnly == 0){
-              FadeInOnceOnly++;
-              //Fades in different pieces
-              // $('#JumbotronAnswer').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-              $('#GraphDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-              $('#inputXn').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-              $('#inputPrecision').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
-                    
-              $("#GraphDiv").show(500);
-              $('#inputXn').show(1000);
-              $('#inputPrecision').show(1500);
+          // fade in graph and next input box           
+          $('.MyBoxLeft2').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+          $(".MyBoxLeft2").show(500);
+          //+- on left side to adjust graph thickness
+          $('#GraphAdjustments').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+          $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 900);
+          $("#myGraph").show(900);
+          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});//strokeWidth is where the graph changes size
+          
+          $('#guessInputGroup').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+          $("#guessInputGroup").show(1000);
+
+          //Focus on next input box
+          $("#userGuess").focus()
+          
+          $("#userGuess").on("keyup", function(e){
+             if(e.keyCode === 13){
+              Result = "";
+              ChangeOfxResult = "";
+              counter = 1;
+            
+              userGuess = $("#userGuess").val();
+              userGuess = parseFloat(userGuess).toFixed(8);
               
-              //Converting string into JS math
-              jsinitialfunction = mathjs(initialfunction, 'x');
-            
-              // clear graph
-              board.removeObject(DrawingGraph);
-                     
-              // Create a function graph for f(x) = sin(x)
-              DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}]);
-                   
-          }
-          else if (FadeInOnceOnly == 1){ // the second time the enter button is pressed, after the graph has faded in
-            
-                  FadeInOnceOnly++;       
-
-                  
-
-                  //Populating Xn & Precision var
-                  xn = $("#inputXn").val();
-                  xn = parseInt(xn);
-
-                  precision = $("#inputPrecision").val();
-                  precision = parseInt(precision);
-             
-
-                  //var Algebrite = require('algebrite')
-                  //'x+x' for testing
-                  Algebrite.run('x + x');
-
-                  //Taking derivative
-                  var Dfunction = Algebrite.run('d('+ initialfunction +')');
-
-                    console.log(eval(Math.sin(90)));
-                    console.log(Dfunction);
-                  //Converting f'(x) into Javascript Math
-                  var jsDfunction = mathjs(Dfunction, 'x');
-
-                  //showing results
-                  Result = "";//Used to output itterations of x
-                  ChangeOfxResult = "";// used to output results for change of x
-                  
-             do{  //Applying Newtons Method
-                    
-                    // Use Math to access trig functions
-                    var evalInitialFunction;
-                    var evalDFunction;
-                    with(Math){
-                    evalInitialFunction = eval(jsinitialfunction.replace(/x/g, xn));
-                    evalDFunction = eval(jsDfunction.replace(/x/g, xn));
-                    }
-                                       
-                    ans = xn - (evalInitialFunction/evalDFunction);
-                    
-                    
-                    
-                    //Set Delta
-                    delta = ans - xn;
-                          
-                    //Set new xn
-                    xn = ans;
-                    //console.log(ans);
-                
-                    Result += "x" + counter + "= " + (ans).toFixed(SliderValue) + "<br>";//Writing to MyOutput String
-                    XitterationsArray[counter] = ans;//filling array
-             
-                    
-                    ChangeOfxResult += "<span>&#916;</span>x" + counter + "= " + (delta).toFixed(SliderValue) + "<br>"; //Writing to ChangeX string
-                    ChangeofXArray[counter] = delta//filling array with each change of x
-
-                    counter ++;
-                    
-                    if (counter > 10000){
-
-                        Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
-                        ChangeOfxResult = "";
+              Result += "x0 = " + userGuess + "<br>";
+              
+              do{  //Applying Newtons Method
                         
-                        break;
+                        // Use Math to access trig functions
+                        var evalInitialFunction;
+                        var evalDerivFunction;
+                        with(Math){
+                        evalInitialFunction = eval(jsinitialfunction.replace(/x/g, userGuess));
+                        evalDerivFunction = eval(jsderivfunction.replace(/x/g, userGuess));
+                        }
+                        
+                        // Here it comes: the big moment                  
+                        answer = userGuess - (evalInitialFunction/evalDerivFunction);
+                        // Ta-da! There's the line that actually does the formula
+                        
+                        
+                        //Set Delta
+                        delta = answer - userGuess;
+                              
+                        //Set new userGuess
+                        userGuess = answer;
+                        
+                        answer = parseFloat(answer).toFixed(10);
+                        Result += "x" + counter + " = " + answer + "<br>";//Writing to MyOutput String
+                        XiterationsArray[counter] = answer;//filling array
+                
+                        
+                        ChangeOfxResult += "<span>&#916;</span>x" + counter + "= " + delta + "<br>"; //Writing to ChangeX string
+                        ChangeofXArray[counter] = delta;//filling array with each change of x
+    
+                        counter ++;
+                        
+                        if (counter > 10000){
+    
+                            Result = "It looks like this function doesn't converge to a root!"; //+ "<br>" + Result
+                            ChangeOfxResult = "";
+                            
+                            break;
+                          
+                        }
+                        //console.log(Result);
+                        if (answer == "NaN" || answer == "Infinity"){
+
+                           Result = "No Root was found";
+                           ChangeOfxResult = "";
+                           break;
+
+                        }
+    
+                    }while(delta > 0.00000001 || delta < -0.00000001);
+                    
+                    if(ChangeOfxResult != ""){
                       
-                     }
+                        var evalInitialFunction;
+                        var evalDerivFunction;
+                        with(Math){
+                          evalInitialFunction = eval(jsinitialfunction.replace(/x/g, userGuess));
+                          evalDerivFunction = eval(jsderivfunction.replace(/x/g, userGuess));
+                        }
+                            
+                            // Here it comes: the big moment                  
+                            answer = userGuess - (evalInitialFunction/evalDerivFunction);
+                            // Ta-da! There's the line that actually does the formula
+                        
+                        answer = parseFloat(answer).toFixed(10);
+                        Result += "x" + counter + " = " + answer + "<br>";//Writing to MyOutput String
+                        XiterationsArray[counter] = answer;//filling array    
+                            
+                    }   
+                        
+                    
+                  //Plot Crit
+                  answer = parseFloat(answer).toFixed(2);
+                  var p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"}); 
+              
+                  //Fade in answers
+                  $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+                  $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
+                  
+                  $("#AnswersDiv").show(500);
+                  $("#myOutput").show(1000);
+                  
+                  //Output Answer
+                  $('#myOutput').html(Result);
+                 
+               }
+              });
 
-                }while(delta > precision || delta < (precision*-1));
-
-               var p = board.create('point', [ans,0], {style:6, name:'p'}); //Plot Crit
-
-               //Fade in answers
-               $('#AnswersJumbotron').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-               $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
-               $('#ChangeX').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1500);
-               $("#AnswersJumbotron").show(500);
-               $("#myOutput").show(1000);
-               $("#ChangeX").show(1500);
-
-               //Output to Div
-               $('#myOutput').html(Result);
-               $('#ChangeX').html(ChangeOfxResult);
+             
           
-          } // end of if for second button click
           
-       }else{ //validation if
-                  alert("Bad Input");
-                }
-          
-       });
-          
-           //Clear Button
-        $("#ClearButton").click(function(){
-           
-            $('#inputfunction').val('');
-            $('#inputXn').val('');
-            $('#inputPrecision').val('');
+        
+      }
+      
+    });
+    
+  });
+    
+  
+  
+</script>
 
-            //Clears Variables
-            Result = "";
-            ChangeOfxResult = "";
-            counter = 0;
-            xn = 0;
-            precision = 0.01; 
-            ans = 0;
-            delta = 0;
-            FadeInOnceOnly = 0;
-
-            //Fade Out Div's
-            $("#GraphDiv").hide(900);
-            $("#AnswersJumbotron").hide(2000);
-            $("#myOutput").hide(1500);
-            $("#ChangeX").hide(1000);
-
-         });//Clear Button end
-
-        //Insert Button
-        $("#InsertButton").click(function(){
-            
-            //Inserting this info
-            $('#inputfunction').val('x^2-x-6')
-            $('#inputXn').val('1');
-            $('#inputPrecision').val('0.001');
-
-        });//Insert Button end
-
-        /*When Newton's Method Fails
-
-        #1)  If our first guess is a point at which there is a horizontal tangent line, then this line will never hit the x-axis, and Newton's Method will fail to locate a root. If there is ahorizontal tangent line then the drivative is zero.
-        #2) If our guesses oscillate back and forth then Newton's method will not work.
-        #3) If there are two roots, we must have a first guess near the root that we are interested in, otherwise Newton's method will find the wrong root
-        #4) If there are no roots, then Newton's method will fail to find it.
-        */
-           
-  </script>
 </body>
 </html>
-
-
