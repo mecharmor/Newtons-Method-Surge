@@ -197,9 +197,10 @@
             DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});  
           }
           //Check
-          else if (p != null) {
+          if (p != null) {
             //set point
             p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"});
+            console.log("Redrew Point on graph")
           }
         }
       });
