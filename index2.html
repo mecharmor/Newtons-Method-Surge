@@ -296,7 +296,27 @@
 
                         }
     
-                    }while(delta > 0.001 || delta < -0.001);
+                    }while(delta > 0.0001 || delta < -0.0001);
+                    
+                    if(ChangeOfxResult != ""){
+                      
+                        var evalInitialFunction;
+                        var evalDerivFunction;
+                        with(Math){
+                          evalInitialFunction = eval(jsinitialfunction.replace(/x/g, userGuess));
+                          evalDerivFunction = eval(jsderivfunction.replace(/x/g, userGuess));
+                        }
+                            
+                            // Here it comes: the big moment                  
+                            answer = userGuess - (evalInitialFunction/evalDerivFunction);
+                            // Ta-da! There's the line that actually does the formula
+                        
+                        answer = parseFloat(answer).toFixed(10);
+                        Result += "x" + counter + " = " + answer + "<br>";//Writing to MyOutput String
+                        XiterationsArray[counter] = answer;//filling array    
+                            
+                    }   
+                        
                     
                   //Plot Crit
                   answer = parseFloat(answer).toFixed(2);
