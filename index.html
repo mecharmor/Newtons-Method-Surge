@@ -3,7 +3,7 @@
 <head>
   <title>Newton's Method</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -70,6 +70,12 @@
     visibility: hidden;
     top: 35%;
    } 
+   #ShowButton{
+    padding-bottom: 1px;
+    padding-top: 1px;
+    padding-right: 1px
+    padding-left: 1px;
+   }
   </style>
 
 </head>
@@ -89,11 +95,18 @@
   <div id="GraphAdjustments">
       <!--Graph Adjustments-->
       <div class="btn-group-vertical">
+        <button type="button" class="btn btn-default" id="HideShowButton"><span class="glyphicon glyphicon-chevron-left"></span></button>
         <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
         <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
         <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
         <button type="button" class="btn btn-danger" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
       </div>
+  </div>
+
+  <div id="GraphAdjustmentsHidden" style="position: fixed; left: -525px; top: 35%;">
+    <div class="btn-group-vertical">
+      <button type="button" class="btn btn-default" id="ShowButton"><span class="glyphicon glyphicon-chevron-right"></span></button>
+    </div>
   </div>
 
   <div class="MyBoxLeft2" style="width:80%; margin: 0 auto; height:50vh">
@@ -102,15 +115,15 @@
   </div>
 
   <div class="MyBoxLeft" id="guessInputGroup">
-  <div class="input-group" style="width:80%; margin: 0 auto;">
-    <span class="input-group-addon" id="basic-addon1">User Guess = </span>
-    <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1"> 
+    <div class="input-group" style="width:80%; margin: 0 auto;">
+      <span class="input-group-addon" id="basic-addon1">User Guess = </span>
+      <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1"> 
+    </div>
   </div>
-  </div>
+
   <div id="AnswersDiv">
       <div class="MyBoxBottom"><p id="myOutput">Hmmmm.... Javascript didn't output answer</p></div>
   </div>
-    
 </div>
 
 <script>
@@ -128,8 +141,24 @@
   var GraphThickness = 3;
   var ThisStrokeColor = "#0000ff";
 
-  
   $(document).ready(function(){
+
+    //Hide Button Pressed
+    $('#HideShowButton').on('click', function () {
+        //Hide Adjustments
+        $('#GraphAdjustments').animate({left: '-100%'}, 500);
+        //Show Show Button
+        $('#GraphAdjustmentsHidden').animate({left:0}, 500);
+        console.log("Hide Adjustments and Show Hidden Button")
+    });
+    //Show Button Pressed
+    $('#ShowButton').on('click', function () {
+       // Show Adjustments
+        $('#GraphAdjustments').animate({left:0}, 500);
+        //Hide Show Button
+        $('#GraphAdjustmentsHidden').animate({left: -525}, 500);
+        console.log("Show Adjustments and Hide Hidden Button") 
+    });
 
     //Graph Thicker Button
     $("#GraphThicker").click(function(){
