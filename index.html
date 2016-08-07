@@ -46,9 +46,9 @@
    }
    
    .MyBoxLeft{
-    text-align:center;
-    margin: auto; 
     width: 80%;
+    margin: 0 auto;
+
    }
 
    .MyBoxLeft2{
@@ -99,6 +99,7 @@
         <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
         <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
         <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
+        <button type="button" class="btn btn-default" style="visibility:hidden;"></button>
         <button type="button" class="btn btn-danger" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-info-sign"></span></button>
       </div>
@@ -116,8 +117,8 @@
   </div>
 
   <div class="MyBoxLeft" id="guessInputGroup">
-    <div class="input-group" style="width:80%; margin: 0 auto;">
-      <span class="input-group-addon" id="basic-addon1">User Guess = </span>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Guess x value= </span>
       <input type="text" class="form-control" id="userGuess" aria-describedby="basic-addon1"> 
     </div>
   </div>
@@ -138,11 +139,18 @@
         <h4 class="modal-title">Newton's Method Instructions</h4>
       </div>
       <div class="modal-body">
-        <p>(1) Insert Function into first Text Box</p>
-        <p>(2) Hit Enter</p>
-        <p>(3) Graph Appears and graph adjustments shows on the left hand side. Click > button to HIDE adjustments</p>
-        <p>(4) The Bottom Input Box is your initial guess for the (x,0) point</p>
+        <ol>
+          <li>Insert Function into first Text Box</li>
+          <li>Hit Enter</li>
+          <li>Graph Appears and graph adjustments shows on the left hand side. Click > button to HIDE adjustments</li>
+          <li>The Bottom Input Box is your initial guess for the <code>(x,0)</code> point</li>
+        </ol>
         <hr>
+        <h3>Graph Navigation <code>Touchscreen Use Only</code></h3>
+        <ul>
+          <li>Use two fingers to move graph</li>
+          <li><kbd>Experimental</kbd> use two fingers and pinch screen to zoom <code>+-</code></li>
+        </ul>
       </div>
       <div class="modal-footer">
       <button type="button" class="btn btn-default"><a href="https://github.com/johnRedden/newtonsMethodSurge/issues/new" target="_blank">Submit an issue</a></button>
@@ -154,22 +162,22 @@
 </div>
 <!--End Modal-->
 
-
 <script>
   
   var userGuess;
   var Result;
-  var counter;
+  var counter; 
   var answer;
-  var delta;
+  var delta; // Change of x
   var Result = ""; //Used to output iterations of x
   var ChangeOfxResult = ""; // used to output results for change of x
   var XiterationsArray = ["Results"]; //storing information into array for resizing with slider
   var ChangeofXArray = ["Change of X"]; //same purpose as the XitterationsArray but for Change of x
-  var jsinitialfunction;
-  var GraphThickness = 3;
-  var ThisStrokeColor = "#0000ff";
-  var HiddenItemsDisplayed = false;
+  var jsinitialfunction; //The inputted function converted to javascript math
+  var GraphThickness = 3; //default graph thickness
+  var ThisStrokeColor = "#0000ff";// color of graph when loaded in
+  var HiddenItemsDisplayed = false; //variable for checking to see if div's are shown
+  var p;//Variable for point
 
   $(document).ready(function(){
 
@@ -182,8 +190,17 @@
           board.removeObject(board);
           //Create Board
           CreateBoard() 
-          //Create Graph
-          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness}); 
+
+          //Check
+          if (DrawingGraph != null){
+            //Create Graph
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});  
+          }
+          //Check
+          else if (p != null) {
+            //set point
+            p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"});
+          }
         }
       });
 
@@ -205,54 +222,72 @@
 
     //Graph Thicker Button
     $("#GraphThicker").click(function(){
-        if (GraphThickness <= 15) { //Set Max Thickness
-            GraphThickness +=1 //Changing Graph Thickness
-            board.removeObject(DrawingGraph);
-            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor, strokeWidth:GraphThickness}); 
-        }
+       if (HiddenItemsDisplayed == true) { 
+          if (GraphThickness <= 15) { //Set Max Thickness
+              GraphThickness +=1 //Changing Graph Thickness
+              board.removeObject(DrawingGraph);
+              DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor, strokeWidth:GraphThickness}); 
+          }
+       } 
     });
 
     //Graph Thinner Button
     $("#GraphThinner").click(function(){
-        if (GraphThickness >= 2) { //Set Min thickness
-            GraphThickness -=1 //Changing Graph Thickness
-            board.removeObject(DrawingGraph);
-            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
-        }
+       if (HiddenItemsDisplayed == true) {  
+          if (GraphThickness >= 2) { //Set Min thickness
+              GraphThickness -=1 //Changing Graph Thickness
+              board.removeObject(DrawingGraph);
+              DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+          }
+       } 
     });
 
      //Graph Color Button
      var ColorSelector = 0;
     $("#GraphColor").click(function(){
-        //Colors Array
-        var MyArray = ["#00ff00", "#ffff00", "#ff0000","#b300b3","#ff5500","#0000ff"];
-        //Reset if 6
-        if (ColorSelector == 6){ColorSelector = 0;}
-        //Set Color of Array in position
-        ThisStrokeColor = MyArray[ColorSelector]
-        //Remove
-        board.removeObject(DrawingGraph);
-        //Add new
-        DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
-        //Next Color
-        ColorSelector +=1
+        if (HiddenItemsDisplayed == true) {
+            //Colors Array
+            var MyArray = ["#00ff00", "#ffff00", "#ff0000","#b300b3","#ff5500","#0000ff"];
+            //Reset if 6
+            if (ColorSelector == 6){ColorSelector = 0;}
+            //Set Color of Array in position
+            ThisStrokeColor = MyArray[ColorSelector]
+            //Remove
+            board.removeObject(DrawingGraph);
+            //Add new
+            DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});
+            //Next Color
+            ColorSelector +=1
+        } 
     });
 
     //Graph Clear Button
     $("#GraphClear").click(function(){
-
-            board.removeObject(DrawingGraph);
-            //board.removeObject(p);
+            //function input box cleared
             $('#inputfunction').val("");
+            //defaults to f(x)=
+            $("#functionoutput").html("f(x) = ");
+            //deriv val is cleared
+            $("#derivativeoutput").html("");
+            //Delete Board
+            board.removeObject(board);
+            //Create Board
+            CreateBoard() 
+            //guess cleared
             $('#userGuess').val('');
+            //answers from guess cleared
             $('#myOutput').html('');
+            //Reset
             HiddenItemsDisplayed = false;
+            //Remove info for the point variable
+            p = null;
+            //remove data for graph
+            DrawingGraph = null;
     });
     
     //Function for Creating the board
     function CreateBoard(){
-      console.log("Board Created")
-      //Graph
+        //Makes Board
          board = JXG.JSXGraph.initBoard('myGraph',
                      {
                          boundingbox:[-7,2,7,-2],
@@ -403,7 +438,7 @@
                     
                   //Plot Crit
                   answer = parseFloat(answer).toFixed(2);
-                  var p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"}); 
+                  p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"}); 
               
                   //Fade in answers
                   $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
