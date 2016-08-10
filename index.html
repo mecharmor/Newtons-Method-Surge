@@ -3,17 +3,26 @@
 <head>
   <title>Newton's Method</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <link rel="stylesheet" href="css/bootstrap.css"><!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+  <script src="js/bootstrap.min.js"></script><!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
+
   <script src="js/mathjs.js"></script>
+
   <!-- MathJax from CDN -->
-  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/javascript" async src="js/MathJax/MathJax.js"></script><!--<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
+  
   <!-- Algebrite -->
   <script src="js/algebrite.bundle-for-browser.js"></script>
-  <!-- JSX Graph -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>
+
+  <!-- JSX Graph --> <!--How to include JSXgraph Locally for web pages:  http://jsxgraph.uni-bayreuth.de/wiki/index.php/Howto_include_JSXGraph_into_web_pages-->
+  <link rel="stylesheet" type="text/css" href="css/jsxgraph.css" /><!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.5/jsxgraphcore.js"></script>-->
+  <script type="text/javascript" src="js/jsxgraphcore.js"></script>
+
   <style>
    #functioninput{
      width:80%;
@@ -297,6 +306,7 @@
                          showCopyright: false,
                          showNavigation: true,
                          keepaspectratio: false, //square graph coming in
+                         //registerEvents: true,//Possible fix for touchscreen???????????? Descr: Allow user interaction by registering mouse and touch events
                          zoom: {
                             factorX: 1.25,  // horizontal zoom factor (multiplied to JXG.Board#zoomX)
                             factorY: 1.25,  // vertical zoom factor (multiplied to JXG.Board#zoomY)
