@@ -86,7 +86,7 @@
    #ShowButton{
     padding-bottom: 1px;
     padding-top: 1px;
-    padding-right: 1px
+    padding-right: 1px;
     padding-left: 1px;
    }
    .buttonShadow{
@@ -353,6 +353,11 @@
       MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
       
       if(e.keyCode === 13){
+        
+        //old guess cleared
+        $('#userGuess').val('');
+        //answers from guess cleared
+        $('#myOutput').html('');
 
         HiddenItemsDisplayed = true;
 
