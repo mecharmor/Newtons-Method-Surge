@@ -24,6 +24,10 @@
   <script type="text/javascript" src="js/jsxgraphcore.js"></script>
 
   <style>
+    body{
+    background-image:url(pictures/background_main.png);
+    background-repeat:repeat;
+  }
    #functioninput{
      width:80%;
      margin: 0 auto;
@@ -85,13 +89,17 @@
     padding-right: 1px
     padding-left: 1px;
    }
+   .buttonShadow{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   }
   </style>
 
 </head>
 <body>
   
 <div class="container">
-  <h1 class="text-center">Newton's Method</h1>
+  <h2 class="text-center">Newton's Method <img src="pictures/isaac_newton.jpg" class="img-rounded" style="width: 45px; height:auto;"></h2>
+  <div class="text-center" style="padding-bottom: 15px;"><span id="formula" ></span></div>
   <div class="input-group" id="functioninput">
     <span class="input-group-addon" id="basic-addon1">f(x) = </span>
     <input type="text" class="form-control" id="inputfunction" placeholder="Enter function" aria-describedby="basic-addon1" autofocus>
@@ -104,19 +112,19 @@
   <div id="GraphAdjustments">
       <!--Graph Adjustments-->
       <div class="btn-group-vertical">
-        <button type="button" class="btn btn-default" id="HideShowButton"><span class="glyphicon glyphicon-chevron-left"></span></button>
-        <button type="button" class="btn btn-default" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
-        <button type="button" class="btn btn-default" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
-        <button type="button" class="btn btn-default" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
-        <button type="button" class="btn btn-default" style="visibility:hidden;"></button>
-        <button type="button" class="btn btn-danger" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-info-sign"></span></button>
+          <button type="button" class="btn btn-default buttonShadow" id="HideShowButton"><span class="glyphicon glyphicon-chevron-left"></span></button>
+          <button type="button" class="btn btn-default buttonShadow" id="GraphThicker"><span class="glyphicon glyphicon-plus"></span></button>
+          <button type="button" class="btn btn-default buttonShadow" id="GraphThinner"><span class="glyphicon glyphicon-minus"></span></button>
+          <button type="button" class="btn btn-default buttonShadow" id="GraphColor"><span class="glyphicon glyphicon-tint"></span></button>
+          <button type="button" class="btn btn-default" style="visibility:hidden;"></button> 
+          <button type="button" class="btn btn-danger buttonShadow" id="GraphClear"><span class="glyphicon glyphicon-remove"></span></button>
+          <button type="button" class="btn btn-info buttonShadow" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-info-sign"></span></button>
       </div>
   </div>
 
   <div id="GraphAdjustmentsHidden" style="position: fixed; left: -525px; top: 35%;">
     <div class="btn-group-vertical">
-      <button type="button" class="btn btn-default" id="ShowButton"><span class="glyphicon glyphicon-chevron-right"></span></button>
+      <button type="button" class="btn btn-default buttonShadow" id="ShowButton"><span class="glyphicon glyphicon-chevron-right"></span></button>
     </div>
   </div>
 
@@ -190,6 +198,12 @@
 
   $(document).ready(function(){
 
+    $(window).load(function(){
+       //Display Newton's method formula in div
+    $("#formula").html("`x_{n+1}= x_n - f(x_n)/(f'(x_n))`");
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"formula"]);
+    });
+   
      //Detecting if window is resized so graph doesnt take a poop
      $(window).resize(function(){
         if (HiddenItemsDisplayed == true) {
