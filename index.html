@@ -7,7 +7,7 @@
   
   <link rel="stylesheet" href="css/bootstrap.css"><!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
 
- <script src="js/jquery.js"></script><!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><!--/-->
+ <script src="js/jquery.js"></script><!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
   
   <script src="js/bootstrap.min.js"></script><!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>-->
 
@@ -45,6 +45,10 @@
    #myGraph{
      margin-bottom: 15px;
      visibility: hidden;
+     width:100%;
+     height:100%; 
+     border: 1px solid lightgray; 
+     box-shadow: 2px 2px 5px grey;
    }
    
    #guessInputGroup{
@@ -130,7 +134,7 @@
 
   <div class="MyBoxLeft2" style="width:80%; margin: 0 auto; height:50vh">
       <!--Graph Div-->
-      <div id="myGraph" class="jxgbox center-block" style='width:100%; height:100%; border: 1px solid lightgray; box-shadow: 2px 2px 5px grey;'></div>
+      <div id="myGraph" class="jxgbox center-block"></div>
   </div>
 
   <div class="MyBoxLeft" id="guessInputGroup">
@@ -163,13 +167,14 @@
           <li>The Bottom Input Box is your initial guess for the <code>(x,0)</code> point</li>
         </ol>
         <hr>
-        <h3>Graph Navigation <code>Touchscreen Use Only</code></h3>
+        <h4>Graph Navigation <code>Touchscreen Use Only</code></h4>
         <ul>
-          <li>Use two fingers to move graph</li>
+          <li>Use one finger to pan graph</li>
           <li><kbd>Experimental</kbd> use two fingers and pinch screen to zoom <code>+-</code></li>
         </ul>
       </div>
       <div class="modal-footer">
+      <button type="button" class="btn btn-info" id="ShadowsButton" style="position: absolute; left: 10px;"><span id="ShadowsButtonText">Shadows On</span></button>
       <button type="button" class="btn btn-default"><a href="https://github.com/johnRedden/newtonsMethodSurge/issues/new" target="_blank">Submit an issue</a></button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
@@ -226,6 +231,23 @@
             console.log("Redrew Point on graph")
           }
         }
+      });
+
+     //Shadow Button Pressed
+     // id= ShadowsButton
+     $("#ShadowsButton").click(function(){
+          //Shadows Off
+          if ($("#ShadowsButton").text() == "Shadows On") {
+              $(".buttonShadow").css("box-shadow", "none");//Side Buttons Shadow Off
+              $("#myGraph").css("box-shadow", "none");//Graph Shadow Off
+              $("#ShadowsButtonText").html("Shadows Off");//Change Button Text
+
+          }//Shadows On
+          else{
+              $("#myGraph").css("box-shadow", "2px 2px 5px grey");//Graph Shadow On
+              $(".buttonShadow").css("box-shadow", "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)");//Side Buttons Shadow on
+              $("#ShadowsButtonText").html("Shadows On");//Change Button Text
+          }
       });
 
     //Hide Button Pressed
@@ -292,7 +314,7 @@
             //defaults to f(x)=
             $("#functionoutput").html("f(x) = ");
             //deriv val is cleared
-            $("#derivativeoutput").html("");
+            $("#derivativeoutput").html("Please Enter A Function");
             //Delete Board
             board.removeObject(board);
             //Create Board
@@ -352,8 +374,18 @@
       $("#functionoutput").html("`f(x) = " + initialfunction + "`");
       MathJax.Hub.Queue(["Typeset",MathJax.Hub,"functionoutput"]);
       
+       if(e.keyCode === 08){
+              if ($("#inputfunction").val().length === 0) {
+                  //Output Cleared
+                  if ($('#myGraph').css('visibility') === 'visible') {
+                        //Clear
+                        $( "#GraphClear" ).trigger( "click" );
+                  }
+              }
+        };
+
+      //If enter/return is pressed do this
       if(e.keyCode === 13){
-        
         //old guess cleared
         $('#userGuess').val('');
         //answers from guess cleared
@@ -369,23 +401,34 @@
           // now getting the function and derivative into jsmath
           jsinitialfunction = mathjs(initialfunction, 'x');
           jsderivfunction = mathjs(derivativefunction, 'x');
-            
-          // fade in graph and next input box           
-          $('.MyBoxLeft2').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-          $(".MyBoxLeft2").show(500);
-          //+- on left side to adjust graph thickness
-          $('#GraphAdjustments').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-          $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 900);
-          $("#myGraph").show(900);
-          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});//strokeWidth is where the graph changes size
           
-          $('#guessInputGroup').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
-          $("#guessInputGroup").show(1000);
+           if ($('#myGraph').css('visibility') === 'hidden') {  
+              // fade in graph and next input box           
+              $('.MyBoxLeft2').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+              $(".MyBoxLeft2").show(500);
+              //+- on left side to adjust graph thickness
+              $('#GraphAdjustments').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+              $('#myGraph').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 900);
+              $("#myGraph").show(900);
+              $('#guessInputGroup').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
+              $("#guessInputGroup").show(1000);
+            }
 
+          DrawingGraph = board.create('functiongraph',[function(x){ with(Math) return eval(jsinitialfunction);}], {strokeColor:ThisStrokeColor,strokeWidth:GraphThickness});//strokeWidth is where the graph changes size
           //Focus on next input box
+
           $("#userGuess").focus()
           
           $("#userGuess").on("keyup", function(e){
+            //If Backspace is pressed then do this
+            if(e.keyCode === 08){
+                if ($("#userGuess").val().length >= 1) {
+                    //answers from guess cleared
+                    $('#myOutput').html('Press Enter To Submit Guess');
+              }
+            };
+
+             //If enter/return is pressed do this
              if(e.keyCode === 13){
               Result = "";
               ChangeOfxResult = "";
@@ -465,32 +508,28 @@
                             
                     }   
                         
-                    
-                  //Plot Crit
-                  answer = parseFloat(answer).toFixed(2);
-                  p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"}); 
-              
-                  //Fade in answers
+                  if ($("#inputfunction").val().length > 0) {
+                    //Plot Crit
+                    answer = parseFloat(answer).toFixed(2);
+                    p = board.create('point', [answer,0], {style:6, name:"(" + answer + ", 0)"});
+                    //Output Answer
+                    $('#myOutput').html(Result);
+                  }
+                  else{
+                    //Output No Function
+                    $('#myOutput').html("No Function Entered");
+                  }
+
+                    //Fade in answers
                   $('#AnswersDiv').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 500);
                   $('#myOutput').css({ opacity: 0.0, visibility: "visible" }).animate({ opacity: 1.0 }, 1 * 1000);
                   
                   $("#AnswersDiv").show(500);
-                  $("#myOutput").show(1000);
-                  
-                  //Output Answer
-                  $('#myOutput').html(Result);
-                 
-               }
+                  $("#myOutput").show(1000);  
+                }
               });
-
-             
-          
-          
-        
       }
-      
     });
-    
   });
     
   
