@@ -9,7 +9,6 @@
 ## Newtons Method Surge introduction
 Our project goal was to create a web app that can quickly output an approximation to the root of a function using Newton’s Method, introduced in our Calculus class. This would allow for users to bypass the tedious work of performing dozens of iterations by hand. This unique program allows users to enter a function and guess, and have the computer work through the iterations before presenting an answer. The difficulties building this program included designing a loop to properly handle the iterations, as well as formatting the graph and web page. We found that a do-while loop for the heart of the math calculations worked well, and allowed for us to control the number of iterations using the exit conditions. The final website also includes a graph to make it easier for users to visualize the function and make a sound initial guess.
 
-## Demo `Newtons Method Calculator`
 ![daug_demo](https://github.com/mecharmor/Newtons-Method-Surge/blob/master/pictures/NewtonsMethod%20-%20sample.gif)
 
 ## Objectives
